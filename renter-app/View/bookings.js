@@ -1,25 +1,20 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import MapScreen from './View/map';
-import BookingsScreen from './View/bookings';
 
 
-const Tab = createBottomTabNavigator();
 
-function App() {
+const BookingsScreen = () => {
+
   return (
     
-    <NavigationContainer>
-      <Tab.Navigator initialRouteName="Map">
-        <Tab.Screen name="Map" component={MapScreen} />
-        <Tab.Screen name="Bookings" component={BookingsScreen} />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <View style={styles.container} >
+  
+   <Text>Hello from BookingsScreen</Text>
+   
+    </View>
 
   );
-}
+};
 
 
 const styles = StyleSheet.create({
@@ -29,9 +24,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+
 });
 
-export default App;
+export default BookingsScreen;
 
 
 

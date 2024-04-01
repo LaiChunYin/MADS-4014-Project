@@ -10,9 +10,6 @@ const ListingScreen = () => {
     const [vehicles, setVehicles] = useState([])
     const [isLoading, setIsLoading] = useState(true)
 
-    const [licensePlate, setlicensePlate] = useState()
-    const [price, setPrice] = useState()
-    const [location, setLocation] = useState()
 
     useEffect(() => {
         fetch("https://laichunyin.github.io/MADS-4014-Project/vehicles.json").then((response) => {
@@ -140,8 +137,6 @@ const ListingScreen = () => {
 
     return (
         <View>
-            <Text>this is listing screen</Text>
-
             <Text>Vehicle Name: </Text>
             <TextInput
                 placeholder = "Enter Vehicle Name"

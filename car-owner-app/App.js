@@ -4,16 +4,18 @@ import { StyleSheet, Text, View, Button } from 'react-native';
 import BookingsScreen from './src/screens/BookingsScreen';
 import ListingScreen from './src/screens/ListingScreen';
 import SignInScreen from './src/screens/SignInScreen';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext, createContext, useNavigation } from 'react';
 import { auth } from "./firebaseConfig"
 import { onAuthStateChanged, signOut } from "firebase/auth"
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import { NavigationOptionsContext, NavigationOptionsProvider } from './src/screens/ContextProvider';
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState()
+  // const [navigation] = useNavigation()
 
   const Tab = createBottomTabNavigator()
   const Stack = createNativeStackNavigator()
@@ -49,6 +51,8 @@ export default function App() {
 
   return (
     currentUser ?     (
+      <NavigationOptionsProvider>
+      {/* <NavigationOptionsContext.Provider value={{ tabSetOptions: "d" }}> */}
       <NavigationContainer>
         <Tab.Navigator initialRouteName='Listing'>
         <Tab.Screen name="Listing" component={ListingScreen}
@@ -76,7 +80,7 @@ export default function App() {
             ),
             headerRight: () => (
               <Button
-                onPress={() => alert('Button Pressed')}
+                onPress={logout}
                 title="Logout"
                 // color="#000" // Color might not be supported depending on the platform; adjust accordingly.
               />
@@ -88,6 +92,8 @@ export default function App() {
         />
         </Tab.Navigator>
       </NavigationContainer>
+      </NavigationOptionsProvider>
+      // </NavigationOptionsContext.Provider>
     )
     :
     (

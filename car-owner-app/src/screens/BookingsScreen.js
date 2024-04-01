@@ -1,26 +1,24 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, TextInput, Pressable, View, FlatList, Image, ActivityIndicator, Button } from "react-native"
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BookingDetailsScreen from './BookingDetailsScreen';
 import BookingListScreen from './BookingListScreen';
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
+import { NavigationOptionsProvider, NavigationOptionsContext  } from "./ContextProvider"
 import { HeaderBackButton } from '@react-navigation/elements'
 
 const Stack = createNativeStackNavigator()
 
-const BookingsScreen = ({ navigation }) => {
-    // useEffect(() => {
-    //     navigation.setOptions({
-    //         headerLeft: () => (
-    //         <HeaderBackButton onPress={() => navigation.goBack()} />
-    //         ),
-    //     })
-    // }, [navigation])
+const BookingsScreen = () => {
+    const navigation = useNavigation()
+    const { tabSetOptions, setTabSetOptions } = useContext(NavigationOptionsContext)
 
     useEffect(() => {
-        console.log("in bookingscreen ", navigation.getState().routes[navigation.getState().index].name, navigation.getState().index)
-    })
+        console.log("in bookingscreen ", navigation.getState(), navigation.getState().routes[navigation.getState().index].name, navigation.getState().index)
+        console.log("in booking screen: ", navigation, navigation.setOptions)
+        setTabSetOptions(() => navigation.setOptions)
+    }, [])
 
     return (
         // <NavigationContainer>
@@ -30,9 +28,9 @@ const BookingsScreen = ({ navigation }) => {
             headerTitleStyle: {fontWeight: 'bold'}, } 
             }>
                 <Stack.Screen name="BookingList" component={BookingListScreen} options={{ headerShown: false }} />
-                <Stack.Screen name="BookingDetails" component={BookingDetailsScreen} tabNavigation={navigation}
-                    // options={{ headerShown: false, headerLeft: () => <Button onPress={ navigation.goBack() } title={"Go Back"} /> }} 
-                    options={{ headerShown: true}} 
+                <Stack.Screen name="BookingDetails" component={BookingDetailsScreen}
+                    // options={{ headerShown: true, headerLeft: () => <Button onPress={ () => navigation.goBack() } title={"Go Back"} /> }} 
+                    options={{ headerShown: false}} 
                 />
             </Stack.Navigator>
 

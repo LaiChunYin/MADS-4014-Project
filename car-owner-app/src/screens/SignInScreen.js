@@ -20,11 +20,13 @@ const SignInScreen = () => {
             }
             else {
                 console.log("not a car owner")
+                alert("Invalid credentials")
             }
 
         }
         catch(err) {
             console.log("sign in error: ", err)
+            alert("Sign in failed")
         }
 
     }

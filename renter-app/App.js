@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MapScreen from './View/map';
 import BookingsScreen from './View/bookings';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 const Tab = createBottomTabNavigator();
@@ -12,8 +13,23 @@ function App() {
   return (
     
     <NavigationContainer>
-      <Tab.Navigator initialRouteName="Map">
-        <Tab.Screen name="Map" component={MapScreen} />
+      <Tab.Navigator initialRouteName="Map"         screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+
+            if (route.name === 'Map') {
+              iconName = 'map-marker';
+            } else if (route.name === 'Bookings') {
+              iconName = 'bookmark'
+            }
+            return <Icon name={iconName} size={size} color={color} />;
+          },
+        })}
+        tabBarOptions={{
+          activeTintColor: 'tomato',
+          inactiveTintColor: 'gray',
+        }}>
+        <Tab.Screen name="Map" component={MapScreen}/>
         <Tab.Screen name="Bookings" component={BookingsScreen} />
       </Tab.Navigator>
     </NavigationContainer>

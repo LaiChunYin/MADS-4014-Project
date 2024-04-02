@@ -5,7 +5,7 @@ import { getDoc, updateDoc, doc } from "firebase/firestore"
 import { db } from "../../firebaseConfig"
 import "react-native-get-random-values"
 import { v4 as uuid } from "uuid"
-import { NavigationOptionsProvider, NavigationOptionsContext  } from "./ContextProvider"
+import { NavigationOptionsProvider, NavigationOptionsContext  } from "../providers/TabNavigationProvider"
 
 const BookingDetailsScreen = ({ navigation, route }) => {
 
@@ -13,16 +13,12 @@ const BookingDetailsScreen = ({ navigation, route }) => {
     // const [renter, setRenter] = useState()
     const [ booking, setBooking ] = useState(route.params.booking)
     const { tabSetOptions, setTabSetOptions } = useContext(NavigationOptionsContext)
-    useLayoutEffect(() => {
-        console.log("in use layout effect ", tabSetOptions)
-        // setOptions({ headerTitle: 'Updated Title from Stack' });
-      }, []);
 
     useEffect(() => {
         (async () => {
             try {
                 console.log("calling tabsetoptions ", tabSetOptions, setTabSetOptions)
-                tabSetOptions({headerTitle: "Changed title", headerLeft: () => <Button onPress={ () => { navigation.goBack(); console.log("resetting tab navigation bar"); tabSetOptions({headerTitle: "Bookings 123" }); } } title={"Go Back"} /> })
+                tabSetOptions({headerTitle: "Booking Details", headerLeft: () => <Button onPress={ () => { navigation.goBack(); console.log("resetting tab navigation bar"); tabSetOptions({headerTitle: "Bookings" }); } } title={"Go Back"} /> })
                 // navigation.setOptions({ headerShown: true, headerLeft: () => <Button onPress={ () => navigation.goBack() } title={"Go Back"} /> })
                 console.log("in booking detail screen ", navigation.getState().routes[navigation.getState().index].name, navigation.getState().index)
                 console.log("booking, vehicle detail is ", booking, vehicle)

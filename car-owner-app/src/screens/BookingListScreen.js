@@ -2,7 +2,8 @@ import { StyleSheet, Text, TextInput, Pressable, View, FlatList, Image, Activity
 import { collection, setDoc, doc, getDoc, getDocs, writeBatch, query } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react"
 import { auth, db } from "../../firebaseConfig"
-import { NavigationOptionsContext } from "./ContextProvider"
+import { NavigationOptionsContext } from "../providers/TabNavigationProvider"
+import BookingListItems from "../components/BookingListItem";
 
 const BookingListScreen = ({ navigation }) => {
     const [isLoading, setIsLoading] = useState(true)
@@ -40,6 +41,7 @@ const BookingListScreen = ({ navigation }) => {
                     console.log("booking ", { "id": bookingDoc.id, ...bookingDoc.data(), ...vehicleDoc.data()})
                     // return { "id": bookingDoc.id, ...bookingDoc.data(), ...vehicleDoc.data()}
                     console.log("before serial ", {"booking": {"id": bookingDoc.id, ...bookingDoc.data()}, "vehicle": { "licensePlate": vehicleDoc.id, ...vehicleDoc.data()}, "renter": {"id": renterDoc.id, ...renterDoc.data()}})
+                    // stringify and then parse the object to remove the non-serializable fields, which should not be passed through navigation
                     console.log("after serial ", JSON.parse(JSON.stringify({"booking": {"id": bookingDoc.id, ...bookingDoc.data()}, "vehicle": { "licensePlate": vehicleDoc.id, ...vehicleDoc.data()}, "renter": {"id": renterDoc.id, ...renterDoc.data()}})))
                     return {"booking": {"id": bookingDoc.id, ...bookingDoc.data()}, "vehicle": { "licensePlate": vehicleDoc.id, ...vehicleDoc.data()}, "renter": {"id": renterDoc.id, ...renterDoc.data()}}
                 })
@@ -56,6 +58,12 @@ const BookingListScreen = ({ navigation }) => {
         })()
     }, [])
 
+    const updateBooking = (id, newBooking) => {
+        console.log("updating booking")
+        const indexToBeUpdated = bookings.findIndex((booking) => booking.id == id)
+        bookings[indexToBeUpdated] = newBooking
+        setBookings(bookings)
+    }
     return (
         // <NavigationOptionsContext.Provider value={{ tabSetOptions: navigation.setOptions }}>
         <View>
@@ -67,11 +75,13 @@ const BookingListScreen = ({ navigation }) => {
                         data={bookings}
                         key={(item) => item.booking.id}
                         renderItem={({item}) => 
+                            <BookingListItem item={item} updateBooking />
+
                             // <Pressable onPress={() => navigation.navigate("BookingDetails", {booking: item})} >
-                            <Pressable onPress={() => navigation.navigate("BookingDetails", JSON.parse(JSON.stringify({booking: item.booking, vehicle: item.vehicle, renter: item.renter})))} >
-                                {/* <Text style={{backgroundColor: "gray"}}>{item.name}</Text> */}
-                                <Text style={{backgroundColor: "gray"}}>{item.vehicle.name}</Text>
-                            </Pressable>
+                            // <Pressable onPress={() => navigation.navigate("BookingDetails", JSON.parse(JSON.stringify({booking: item.booking, vehicle: item.vehicle, renter: item.renter})))} >
+                            //     {/* <Text style={{backgroundColor: "gray"}}>{item.name}</Text> */}
+                            //     <Text style={{backgroundColor: "gray"}}>{item.vehicle.name}</Text>
+                            // </Pressable>
                         }
                     />
                 )

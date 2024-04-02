@@ -2,17 +2,13 @@ import { useEffect, useState } from "react"
 import { StyleSheet, Text, TextInput, Pressable, View, FlatList, Image, ActivityIndicator } from "react-native"
 import { db, auth } from "../../firebaseConfig"
 import { collection, setDoc, doc, getDoc, writeBatch } from "firebase/firestore";
-import { signOut } from "firebase/auth"
+import VehicleSuggestionListItem from "../components/VehicleSuggestionListItem";
 
 const ListingScreen = () => {
     const [selectedVehicle, setSelectedVehicle] = useState({})
     const [filteredVehicles, setfilteredVehicles] = useState([])
     const [vehicles, setVehicles] = useState([])
     const [isLoading, setIsLoading] = useState(true)
-
-    const [licensePlate, setlicensePlate] = useState()
-    const [price, setPrice] = useState()
-    const [location, setLocation] = useState()
 
     useEffect(() => {
         fetch("https://laichunyin.github.io/MADS-4014-Project/vehicles.json").then((response) => {
@@ -25,8 +21,6 @@ const ListingScreen = () => {
             }
         })
         .then((data) => {
-            // console.log("data is ", data)
-
             data.forEach(element => {
                 const vehicle = {
                     handle: element.handle,
@@ -61,11 +55,6 @@ const ListingScreen = () => {
         return true
     }
 
-    const selectVehicle = (car) => {
-        console.log("selecting car ", car)
-        setSelectedVehicle(car)
-    }
-
     const filterVechiles = (vehiclesName) => {
         let result = []
         const keywords = vehiclesName.split(" ")
@@ -96,31 +85,19 @@ const ListingScreen = () => {
     }
 
     const createRentalListing = async () => {
-        // if(!selectedVehicle || !licensePlate || !price || !location) {
         if(validateSelectedVehicle(selectedVehicle)) {
 
             try {
                 const batch = writeBatch(db)
-
-                // Reference to documents you want to write to
-                // const docRef1 = firestore().collection('collectionName').doc('documentId1');
-                // const docRef2 = firestore().collection('collectionName').doc('documentId2');
-
                 const vehicleId = selectedVehicle.licensePlate
                 console.log("vehicle id is ", vehicleId)
                 const vehicleDocRef = doc(db, "Vehicles", vehicleId)
                 const carOwnerDocRef = doc(db, "Car_Owners", auth.currentUser.email)
-                // const vehicleDocRef = db.collection("Vehicles").doc(vehicleId)
-                // const carOwnerDocRef = db.collection("Car_Owners").doc(auth.currentUser.email)
                 console.log("auth email ", auth.currentUser.email)
                 console.log("doc ref ", typeof carOwnerDocRef, carOwnerDocRef)
 
                 batch.set(doc(db, "Vehicles", vehicleId), {...selectedVehicle, "owner": carOwnerDocRef})
                 batch.set(doc(carOwnerDocRef, "Vehicles", vehicleId), {[selectedVehicle.licensePlate]: vehicleDocRef})
-
-                // Queue up write operations
-                // batch.set(docRef1, { field: 'newValue' }); // Example of setting a new document or replacing an existing document
-                // batch.update(docRef2, { anotherField: 'anotherNewValue' }); // Example of updating an existing document
 
                 console.log("before commit")
                 await batch.commit()
@@ -140,8 +117,6 @@ const ListingScreen = () => {
 
     return (
         <View>
-            <Text>this is listing screen</Text>
-
             <Text>Vehicle Name: </Text>
             <TextInput
                 placeholder = "Enter Vehicle Name"
@@ -151,17 +126,18 @@ const ListingScreen = () => {
             />
             {
                 filteredVehicles.length > 0 &&
-                <FlatList
-                    // style={styles.animeList}
-                    data={filteredVehicles}
-                    key={ (item) => item.handle }
-                    renderItem={({item}) => 
-                        <Pressable onPress={() => selectVehicle(item)}>
-                            <Text style={{backgroundColor: "yellow"}}>{item.name}</Text>
-                        </Pressable>
-                        // <Text >{item.name}</Text>
-                    } 
-              />
+                <VehicleSuggestionListItem filteredVehicles={filteredVehicles} setSelectedVehicle={setSelectedVehicle} />
+            //     <FlatList
+            //         // style={styles.animeList}
+            //         data={filteredVehicles}
+            //         key={ (item) => item.handle }
+            //         renderItem={({item}) => 
+            //             <Pressable onPress={() => selectVehicle(item)}>
+            //                 <Text style={{backgroundColor: "yellow"}}>{item.name}</Text>
+            //             </Pressable>
+            //             // <Text >{item.name}</Text>
+            //         } 
+            //   />
             }
 
             <Text>Make: </Text>

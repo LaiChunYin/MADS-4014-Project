@@ -1,56 +1,33 @@
-import { useEffect, useState } from "react"
-import { StyleSheet, Text, TextInput, Pressable, View, FlatList, Image, ActivityIndicator } from "react-native"
+import { useContext, useEffect, useState, useLayoutEffect } from "react"
+import { StyleSheet, Text, TextInput, Button, Pressable, View, FlatList, Image, ActivityIndicator } from "react-native"
 import { HeaderBackButton } from '@react-navigation/elements'
 import { getDoc, updateDoc, doc } from "firebase/firestore"
 import { db } from "../../firebaseConfig"
 import "react-native-get-random-values"
 import { v4 as uuid } from "uuid"
+import { NavigationOptionsProvider, NavigationOptionsContext  } from "../providers/TabNavigationProvider"
 
-const BookingDetailsScreen = ({ navigation, tabNavigation, route }) => {
+const BookingDetailsScreen = ({ navigation, route }) => {
 
-    const { vehicle } = route.params;
-    const [renter, setRenter] = useState()
+    const { vehicle, renter } = route.params;
+    // const [renter, setRenter] = useState()
     const [ booking, setBooking ] = useState(route.params.booking)
-
-    // useEffect(() => {
-    //     bookingsNavigation.setOptions({
-    //         headerLeft: () => (
-    //           <HeaderBackButton onPress={() => bookingsNavigation.goBack()} />
-    //         ),
-    //       });
-    // }, [bookingsNavigation])
-
-    // useEffect(() => {
-    //     console.log("setting options ", tabNavigation)
-    //     tabNavigation.setOptions({
-    //         headerLeft: () => (
-    //         //   <HeaderBackButton onPress={() => navigation.goBack()} />
-    //         <Text>testing</Text>
-    //         ),
-    //       });
-    // }, [tabNavigation])
-
-    // useEffect(() => {
-    //     console.log("setting options ", navigation)
-    //     navigation.setOptions({
-    //         headerLeft: () => (
-    //         //   <HeaderBackButton onPress={() => navigation.goBack()} />
-    //         <Text>testing</Text>
-    //         ),
-    //       });
-    // }, [navigation])
+    const { tabSetOptions, setTabSetOptions } = useContext(NavigationOptionsContext)
 
     useEffect(() => {
         (async () => {
             try {
+                console.log("calling tabsetoptions ", tabSetOptions, setTabSetOptions)
+                tabSetOptions({headerTitle: "Booking Details", headerLeft: () => <Button onPress={ () => { navigation.goBack(); console.log("resetting tab navigation bar"); tabSetOptions({headerTitle: "Bookings" }); } } title={"Go Back"} /> })
+                // navigation.setOptions({ headerShown: true, headerLeft: () => <Button onPress={ () => navigation.goBack() } title={"Go Back"} /> })
                 console.log("in booking detail screen ", navigation.getState().routes[navigation.getState().index].name, navigation.getState().index)
                 console.log("booking, vehicle detail is ", booking, vehicle)
         
-                const renterDoc = await getDoc(booking.renter)
-                const renterData = renterDoc.data()
-                console.log("renterdata is ", renterData)
+                // const renterDoc = await getDoc(booking.renter)
+                // const renterData = renterDoc.data()
+                // console.log("renterdata is ", renterData)
 
-                setRenter(renterData)
+                // setRenter(renterData)
             }
             catch(err) {
                 console.log("cannot get renter: ", err)

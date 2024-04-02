@@ -1,8 +1,8 @@
 import { useState } from "react"
-import { StyleSheet, Text, TextInput, Pressable, View, FlatList, Image, ActivityIndicator } from "react-native"
+import { StyleSheet, Text, TextInput, Pressable, View } from "react-native"
 import { auth, db } from '../../firebaseConfig';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { collection, setDoc, doc, getDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 
 const SignInScreen = () => {
     const [username, setUserName] = useState()
@@ -20,11 +20,13 @@ const SignInScreen = () => {
             }
             else {
                 console.log("not a car owner")
+                alert("Invalid credentials")
             }
 
         }
         catch(err) {
             console.log("sign in error: ", err)
+            alert("Sign in failed")
         }
 
     }

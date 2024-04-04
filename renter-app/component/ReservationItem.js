@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SafeAreaView, ActivityIndicator, FlatList, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 
 export default ReservationItem = ({reservation}) => {
     return (

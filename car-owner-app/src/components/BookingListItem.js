@@ -1,11 +1,9 @@
-import { StyleSheet, Text, TextInput, Pressable, View, FlatList, Image, ActivityIndicator } from "react-native"
+import { StyleSheet, Text, Pressable, View, Image } from "react-native"
 import { useEffect } from "react"
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
-export default BookingListItem = ({item, updateBooking}) => {
+export default BookingListItem = ({item}) => {
     const navigation = useNavigation()
-
-    useEffect(()=>{console.log("in booking list item ", updateBooking)},[])
 
     return (
         <Pressable onPress={() => navigation.navigate("BookingDetails", {...JSON.parse(JSON.stringify(item))})} >

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, ScrollView} from 'react-native';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
 import BookingList from '../component/BookingList';
 
 

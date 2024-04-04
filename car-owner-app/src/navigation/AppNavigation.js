@@ -1,11 +1,11 @@
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { Text, Button } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationOptionsContext, NavigationOptionsProvider } from '../providers/TabNavigationProvider';
+import { NavigationOptionsProvider } from '../providers/TabNavigationProvider';
 import BookingsScreen from '../screens/BookingsScreen';
 import ListingScreen from '../screens/ListingScreen';
-import { onAuthStateChanged, signOut } from "firebase/auth"
+import { signOut } from "firebase/auth"
 import { auth } from "../../firebaseConfig"
 import { BookingsProvider } from '../providers/BookingsProvider';
 import AddListingScreen from '../screens/AddListingScreen';
@@ -42,7 +42,6 @@ export default AppNavigation = () => {
                 <Button
                   onPress={logout}
                   title="Logout"
-                  // color="#000" // Color might not be supported depending on the platform; adjust accordingly.
                 />
               ),
               tabBarIcon: ({ color, size, focused }) => (
@@ -59,7 +58,6 @@ export default AppNavigation = () => {
                 <Button
                   onPress={logout}
                   title="Logout"
-                  // color="#000" // Color might not be supported depending on the platform; adjust accordingly.
                 />
               ),
               tabBarIcon: ({ color, size, focused }) => (
@@ -69,7 +67,6 @@ export default AppNavigation = () => {
           />
           <Tab.Screen name="Bookings" component={BookingsScreen}
             options={{
-              // headerShown: false,
               tabBarLabel: ({ focused, color }) => (
                 <Text style={{ color: focused ? '#fa7070' : 'grey' }}>Bookings</Text>
               ),
@@ -77,7 +74,6 @@ export default AppNavigation = () => {
                 <Button
                   onPress={logout}
                   title="Logout"
-                  // color="#000" // Color might not be supported depending on the platform; adjust accordingly.
                 />
               ),
               tabBarIcon: ({ focused }) => (

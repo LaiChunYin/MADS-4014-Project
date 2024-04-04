@@ -1,8 +1,7 @@
-import { StyleSheet, Text, TextInput, Pressable, View, FlatList, Image, ActivityIndicator } from "react-native"
+import { StyleSheet, Text, Pressable, View, FlatList } from "react-native"
 
 export default VehicleSuggestionList = ({filteredVehicles, onPressVehicleSuggestion}) => {
     return (
-        // <View  style={styles.testing}>
         <FlatList
             data={filteredVehicles}
             key={ (item) => item.handle }
@@ -11,14 +10,11 @@ export default VehicleSuggestionList = ({filteredVehicles, onPressVehicleSuggest
             }
             renderItem={({item}) => 
                 <Pressable style={styles.listContainer} onPress={() => onPressVehicleSuggestion(item)}>
-                    {/* <Text style={styles.listItem}>{item.name}</Text> */}
                     <Text>{item.name}</Text>
                 </Pressable>
-                // <Text >{item.name}</Text>
             } 
             ItemSeparatorComponent={<View style={{height: 1, backgroundColor: 'gray', marginVertical: 10}} />}
         />
-        // </View>
     )
 }
 

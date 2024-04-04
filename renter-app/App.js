@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Button, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MapScreen from './View/MapScreen';
@@ -90,41 +90,3 @@ const styles = StyleSheet.create({
 });
 
 export default App;
-
-
-
-
-
-
-
-
-
-
-
-
-// import React from 'react';
-// import { View, Text, StyleSheet, Dimensions } from 'react-native';
-// import { TouchableOpacity } from 'react-native-gesture-handler';
-// import { GestureHandlerRootView } from 'react-native-gesture-handler';
-
-
-
-// const BottomSheet = ({car}) => {
-
-//   const bookButton = () => {
-
-//   }
-
-//   return (
-//     <GestureHandlerRootView> {/* Wrap your component hierarchy with GestureHandlerRootView */}
-//     <View style={styles.container}>
-//       <Text style={styles.text}>This is a basic bottom sheet</Text>
-//       {car && <Text style={styles.text}>{car.name}</Text>}
-//       {car && <Text style={styles.text}>Price: ${car.price}</Text>}
-//       <TouchableOpacity onPress={bookButton} style={styles.bookButton}>
-//         <Text style={styles.text}>Book Now</Text>
-//       </TouchableOpacity>
-//     </View>
-//     </GestureHandlerRootView>
-//   );
-// };

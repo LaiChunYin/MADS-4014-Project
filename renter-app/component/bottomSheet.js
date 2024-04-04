@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, PanResponder } from 'react-native';
 import { useState, useRef } from 'react';
-import { collection, setDoc, doc, getDoc, writeBatch } from "firebase/firestore";
+import { collection, doc, getDoc, writeBatch } from "firebase/firestore";
 import { db, auth } from "../firebaseConfig"
 
 
@@ -14,8 +14,7 @@ const [gesturePosition, setGesturePosition] = useState({ x: 0, y: 0 });
       onStartShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponder: () => true,
       onPanResponderGrant: (evt, gestureState) => {
-        // Gesture has started. Show some visual feedback so the user knows
-        // what is happening!
+        // Gesture has started. Show some visual feedback so the user knows what is happening!
         console.log('Gesture started');
       },
       onPanResponderMove: (evt, gestureState) => {
@@ -108,7 +107,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    // transform: [{translateY: 60}], // pass dynamic value from guesture to scroll this
     backgroundColor: 'white',
     padding: 16,
     paddingBottom: 100,

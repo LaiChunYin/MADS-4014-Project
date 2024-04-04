@@ -1,14 +1,7 @@
-import { useCallback, useEffect, useState } from "react"
-import { StyleSheet, Text, TextInput, Pressable, View, FlatList, Image, ActivityIndicator, ScrollView } from "react-native"
-import { db, auth } from "../../firebaseConfig"
-import { collection, setDoc, doc, getDoc, writeBatch } from "firebase/firestore";
-import VehicleSuggestionList from "../components/VehicleSuggestionList";
-import { useFocusEffect } from "@react-navigation/native"
+import { useEffect } from "react"
+import { StyleSheet, Text, View, Image } from "react-native"
 
 export default VehicleListItem = ({vehicle}) => {
-    useEffect(() => {
-        console.log("vehicle item is ", vehicle)
-    }, [])
 
     return (
         <View style={styles.listItem}>

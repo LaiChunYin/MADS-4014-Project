@@ -60,8 +60,6 @@ export const getCurrentLocation = async () => {
 
   export const checkCoorAndAddressInSameCity = async (coord1, coord2) => {
     console.log("coord1 and 2 are ", coord1, coord2)
-    // const parsedAddress1 = coordinatesToAddress(coord1)
-    // const parsedAddress2 = coordinatesToAddress(coord2)
     const [parsedAddress1, parsedAddress2] = await Promise.all([coordinatesToAddress(coord1), coordinatesToAddress(coord2)])
 
     console.log("parsed addr 1 is ", parsedAddress1)

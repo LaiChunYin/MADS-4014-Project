@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
-import { StyleSheet, Text, TextInput, Pressable, View, FlatList, Image, ActivityIndicator, ScrollView } from "react-native"
+import { StyleSheet, Text, TextInput, Pressable, View, Image, ScrollView } from "react-native"
 import { db, auth } from "../../firebaseConfig"
-import { collection, setDoc, doc, getDoc, writeBatch } from "firebase/firestore";
+import { doc, writeBatch } from "firebase/firestore";
 import VehicleSuggestionList from "../components/VehicleSuggestionList";
 
 const AddListingScreen = () => {
@@ -52,7 +52,6 @@ const AddListingScreen = () => {
             if (selectedVehicle[key] === null || selectedVehicle[key] === undefined) return false
             if (typeof selectedVehicle[key] === "string" && selectedVehicle[key].length < 1) return false
         });
-        print("valid vehicle")
         return true
     }
 
@@ -98,7 +97,6 @@ const AddListingScreen = () => {
                 console.log("doc ref ", typeof carOwnerDocRef, carOwnerDocRef)
 
                 batch.set(doc(db, "Vehicles", vehicleId), {...selectedVehicle, "owner": carOwnerDocRef})
-                // batch.set(doc(carOwnerDocRef, "Vehicles", vehicleId), {[selectedVehicle.licensePlate]: vehicleDocRef})
                 batch.set(doc(carOwnerDocRef, "Vehicles", vehicleId), {"vehicleId": vehicleDocRef})
 
                 console.log("before commit")
@@ -131,7 +129,6 @@ const AddListingScreen = () => {
             style={styles.textField}
                 placeholder = "Enter Vehicle Name"
                 value = {selectedVehicle.name}
-                // onChangeText = {value => setVehicleProperty({"name": value})}
                 onChangeText = {onVehicleNameChange}
             />
             {/* horizontal set to true to avoid the VirtualizedLists error */}
@@ -174,9 +171,7 @@ const AddListingScreen = () => {
             <TextInput
                 placeholder = "Enter License Plate"
                 style={styles.textField}
-                // value = {licensePlate}
                 value = {selectedVehicle.licensePlate}
-                // onChangeText = {setlicensePlate}
                 onChangeText = {value => setVehicleProperty({"licensePlate": value})}
             />
 
@@ -184,7 +179,6 @@ const AddListingScreen = () => {
             <TextInput
                 placeholder = "Choose Pick Up Location"
                 style={styles.textField}
-                // value = {location}
                 value = {selectedVehicle.location}
                 onChangeText = {value => setVehicleProperty({"location": value})}
             />
@@ -255,8 +249,6 @@ const styles = StyleSheet.create({
     },
     listContainer: {
         width: 400,
-        // height: "100%",
-        // paddingHorizontal: 100
     }
   });
 

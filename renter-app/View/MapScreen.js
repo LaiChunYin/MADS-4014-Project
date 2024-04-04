@@ -1,13 +1,13 @@
-import React, { cloneElement, useCallback, useEffect, useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import BottomSheet from '../component/BottomSheet';
 import * as Location from 'expo-location';
-import { getCurrentLocation, addressToCoordinates, coordinatesToAddress, checkCoorAndAddressInSameCity } from "../helper/locationHelper"
+import { getCurrentLocation, addressToCoordinates, checkCoorAndAddressInSameCity } from "../helper/locationHelper"
 import { db } from "../firebaseConfig"
-import { getDoc, getDocs, collection, query, updateDoc, doc } from "firebase/firestore"
+import { getDocs, collection, query } from "firebase/firestore"
 import PriceMarker from '../component/PriceMarker';
-import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 
 const MapScreen = () => {
   const [carList, setCarList] = useState([])
@@ -28,7 +28,6 @@ const MapScreen = () => {
   }
 
   useFocusEffect(useCallback(() => {
-    // console.log("focusing on map")
     (async () => {
       console.log("refreshing location on map appears")
       const location = await getCurrentLocation()
@@ -71,7 +70,6 @@ const MapScreen = () => {
   useEffect(() => {
     (async () => {
       try {
-        // const currentLocation = await getCurrentLocation()
         console.log("current location is ", currentLocation)
         const querySnapshot = await getDocs(query(collection(db, "Vehicles")))
         const getVehiclesPromises = querySnapshot.docs.map(async (document) => {
@@ -95,7 +93,6 @@ const MapScreen = () => {
         console.log("after filtering ", result)
         console.log("remove non serializable values ", JSON.parse(JSON.stringify(result)))
         console.log("setting current location ", currentLocation)
-        // setCurrentLocation(currentLocation)
         setCarList(JSON.parse(JSON.stringify(result)))
       }
       catch (err) {

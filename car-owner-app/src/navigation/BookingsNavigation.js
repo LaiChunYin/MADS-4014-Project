@@ -13,7 +13,6 @@ export default BookingsNavigation = () => {
         }>
             <Stack.Screen name="BookingList" component={BookingListScreen} options={{ headerShown: false }} />
             <Stack.Screen name="BookingDetails" component={BookingDetailsScreen}
-                // options={{ headerShown: true, headerLeft: () => <Button onPress={ () => navigation.goBack() } title={"Go Back"} /> }} 
                 options={{ headerShown: false}} 
             />
         </Stack.Navigator>

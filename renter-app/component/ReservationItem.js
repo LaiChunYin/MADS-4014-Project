@@ -3,11 +3,12 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 export default ReservationItem = ({reservation}) => {
     return (
         <View style={styles.listItem}>
+
             <Text style={styles.title}>{reservation.vehicle.name} </Text>
-            <Image source={{ uri: reservation.vehicle.photoUrl }} style={{ width: 100, height: 100 }} />
+            <Image source={{ uri: reservation.vehicle.photoUrl }} style={{ width: 260, height: 160 }} />
             <Text style={styles.text}>License Plate: {reservation.vehicle.licensePlate} </Text>
             <Text style={styles.text}>Car Owner: {reservation.owner.name} </Text>
-            <Image source={{ uri: reservation.owner.profilePicUrl }} style={{ width: 50, height: 50 }} />
+            <Image source={{ uri: reservation.owner.profilePicUrl }} style={{ width: 50, height: 50, borderRadius: 50 }} />
             <Text style={styles.text}>Booking Date: {new Date(reservation.booking.bookingDate.seconds * 1000).toUTCString()}</Text>
             <Text style={styles.text}>Booking Status: {reservation.booking.bookingStatus}</Text>
             <Text style={styles.text}>Pickup location: {reservation.vehicle.location}</Text>
@@ -21,6 +22,7 @@ export default ReservationItem = ({reservation}) => {
 
 const styles = StyleSheet.create({
     listItem: {
+        height: 'auto',
         flexDirection: 'column',
         alignItems: 'flex-start',
         width: '100%',

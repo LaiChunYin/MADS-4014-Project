@@ -34,13 +34,11 @@ const SignInScreen = () => {
         <View style={styles.container}>
             <ImageBackground
                 source={{
-                    uri: 'https://i.pinimg.com/originals/76/49/ba/7649ba7c0d31bf9667faa7e123df34ef.jpg' 
+                    // uri: 'https://i.pinimg.com/originals/76/49/ba/7649ba7c0d31bf9667faa7e123df34ef.jpg' 
                     // uri: 'https://www.wsupercars.com/thumbnails-phone/Lamborghini/2024-Lamborghini-Revuelto-007.jpg' 
-                    // uri: 'https://w0.peakpx.com/wallpaper/107/777/HD-wallpaper-nissan-240z-black-car-cool-jdm-minimalistic-modified-tunning-thumbnail.jpg' 
-                    // uri: 'https://i.pinimg.com/originals/0e/d5/42/0ed542baebfe0c854c8c81112ce25a99.jpg' 
-                    // uri: 'https://w0.peakpx.com/wallpaper/461/348/HD-wallpaper-bmw-car-cars-cool-minimalistic-modified-porche-purple-turbo.jpg'
-                    // uri: 'https://www.wsupercars.com/thumbnails-phone/Lamborghini/2024-Lamborghini-Revuelto-007.jpg' 
-
+                    uri: 'https://www.wsupercars.com/wallpapers-phone/Aston-Martin/2024-Aston-Martin-Vantage-GT3-001-2800p.jpg' 
+                    // uri: 'https://www.wsupercars.com/thumbnails-phone/Aston-Martin/2024-Aston-Martin-Vantage-GT3-001.jpg' 
+                    // uri: 'https://www.wsupercars.com/thumbnails-phone/Bugatti/2019-Bugatti-Divo-004.jpg'
                 }}
                 style={styles.backgroundImage}
             >

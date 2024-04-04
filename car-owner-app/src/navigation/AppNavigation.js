@@ -33,7 +33,7 @@ export default AppNavigation = () => {
           <Tab.Screen name="Listing" component={ListingScreen}
             options={{
               tabBarLabel: ({ focused, color }) => (
-                <Text style={{ color: focused ? 'blue' : 'black' }}>Vehicles</Text>
+                <Text style={{ color: focused ? '#fa7070' : 'grey' }}>Vehicles</Text>
               ),
               headerRight: () => (
                 <Button
@@ -42,8 +42,8 @@ export default AppNavigation = () => {
                   // color="#000" // Color might not be supported depending on the platform; adjust accordingly.
                 />
               ),
-              tabBarIcon: ({ color, size }) => (
-                <FontAwesome name="car" color={"black"} size={20} />
+              tabBarIcon: ({ color, size, focused }) => (
+                <FontAwesome name="car"  style={{ color: focused ? '#fa7070' : 'grey' }} size={20} />
               ),
             }}
           />
@@ -51,7 +51,7 @@ export default AppNavigation = () => {
             options={{
               // headerShown: false,
               tabBarLabel: ({ focused, color }) => (
-                <Text style={{ color: focused ? 'blue' : 'black' }}>Bookings</Text>
+                <Text style={{ color: focused ? '#fa7070' : 'grey' }}>Bookings</Text>
               ),
               headerRight: () => (
                 <Button
@@ -60,8 +60,8 @@ export default AppNavigation = () => {
                   // color="#000" // Color might not be supported depending on the platform; adjust accordingly.
                 />
               ),
-              tabBarIcon: () => (
-                <FontAwesome name="calendar" color={"black"} size={20} />
+              tabBarIcon: ({ focused }) => (
+                <FontAwesome name="calendar"  style={{ color: focused ? '#fa7070' : 'grey' }} size={20} />
               ),
             }}
           />

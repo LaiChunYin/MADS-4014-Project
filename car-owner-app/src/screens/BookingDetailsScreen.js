@@ -18,7 +18,7 @@ const BookingDetailsScreen = ({ navigation, route }) => {
         (async () => {
             try {
                 console.log("calling tabsetoptions ", tabSetOptions, setTabSetOptions)
-                tabSetOptions({headerTitle: "Booking Details", headerLeft: () => <Button onPress={ () => { navigation.goBack(); console.log("resetting tab navigation bar"); tabSetOptions({headerTitle: "Bookings" }); } } title={"Go Back"} /> })
+                tabSetOptions({headerTitle: "Booking Details", headerLeft: () => <Button onPress={ () => { navigation.goBack(); console.log("resetting tab navigation bar"); tabSetOptions({headerTitle: "Bookings" }); } } title={"< Go Back"} /> })
                 // navigation.setOptions({ headerShown: true, headerLeft: () => <Button onPress={ () => navigation.goBack() } title={"Go Back"} /> })
                 console.log("in booking detail screen ", navigation.getState().routes[navigation.getState().index].name, navigation.getState().index)
                 console.log("booking, vehicle detail is ", booking, vehicle)
@@ -66,7 +66,7 @@ const BookingDetailsScreen = ({ navigation, route }) => {
 
     return (
         <View>
-            <Text>Vehicle Name: {vehicle.name}</Text>
+            <Text style={styles.textFieldHeading}>Vehicle Name: {vehicle.name}</Text>
             <Text>License: {vehicle.licensePlate}</Text>
             <Text>Price: {booking.price}</Text>
             {
@@ -113,6 +113,9 @@ const styles = StyleSheet.create({
     declineBtn: {
         backgroundColor: "red"
     },
+    textFieldHeading: {
+        fontSize: 20
+    }
 })
 
 export default BookingDetailsScreen

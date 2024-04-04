@@ -11,6 +11,9 @@ export default VehicleSuggestionList = ({filteredVehicles, onPressVehicleSuggest
             // style={styles.animeList}
             data={filteredVehicles}
             key={ (item) => item.handle }
+            style={
+                styles.listContainer
+            }
             renderItem={({item}) => 
                 <Pressable onPress={() => onPressVehicleSuggestion(item)}>
                     <Text style={{backgroundColor: "yellow"}}>{item.name}</Text>
@@ -20,3 +23,16 @@ export default VehicleSuggestionList = ({filteredVehicles, onPressVehicleSuggest
         />
     )
 }
+
+const styles = StyleSheet.create({
+    listItem: {
+        paddingHorizontal: 10,
+        paddingVertical: 3
+    },
+    listContainer: {
+        marginHorizontal: 15,
+        borderRadius: 10,
+        paddingVertical: 8,
+        backgroundColor: "lightgreen",
+    }
+});

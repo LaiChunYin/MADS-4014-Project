@@ -77,7 +77,7 @@ const BookingDetailsScreen = ({ navigation, route }) => {
                 renter &&
                 <View>
                     <Text>Renter: {renter.name}</Text>
-                    <Image source = { {uri : renter.profilePicUrl}}  style={{ width: 100, height: 100 }} />
+                    <Image source = { {uri : renter.profilePicUrl}}  style={styles.renterImg} />
                 </View>
                 
             }
@@ -149,6 +149,11 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         alignSelf: 'center',
         paddingBottom: 10
+    },
+    renterImg: { 
+        width: 100,
+        height: 100,
+        borderRadius: 20,
     }
 })
 

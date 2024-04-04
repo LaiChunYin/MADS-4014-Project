@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, Button, View, Text, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MapScreen from './View/MapScreen';
@@ -14,6 +14,21 @@ const Tab = createBottomTabNavigator();
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState()
+
+  const logout = async () => {
+    try {
+        if (auth.currentUser === null) {
+            console.log("no user has logged in")
+        }
+        else {                
+            await signOut(auth)
+            console.log("sign out success")
+        }
+        setCurrentUser(null)
+    } catch (err) {
+        console.log(err)
+    }
+}
 
   useEffect(() => {
     const unsubscribeToUserDataChanges = onAuthStateChanged(auth, (user) => {
@@ -42,6 +57,12 @@ const App = () => {
               }
               return <Icon name={iconName} size={size} color={color} />;
             },
+            headerRight: () => (
+              <Button
+                onPress={logout}
+                title="Logout"
+              />
+            ),
           })}
           tabBarOptions={{
             activeTintColor: 'tomato',

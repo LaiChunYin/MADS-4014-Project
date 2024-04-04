@@ -27,9 +27,42 @@ const MapScreen = () => {
   }
 
   useEffect(() => {
+    let locationSubscription
     (async () => {
       try {
-        const currentLocation = await getCurrentLocation()
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          alert(`Permission to access location was denied`)
+          return
+        }
+        
+        locationSubscription = await Location.watchPositionAsync(
+          {
+            accuracy: Location.Accuracy.Balanced,
+            distanceInterval: 1000,
+          },
+          (newLocation) => {
+            console.log("new location is ", newLocation)
+            setCurrentLocation(newLocation.coords)
+          }
+        );
+      }
+      catch(err) {
+        console.log("error when setting location subscription ", err)
+      }
+    })()
+
+    return () => {
+      console.log("removing location subscription")
+      locationSubscription?.remove()
+    }
+  }, [])
+
+  useEffect(() => {
+    (async () => {
+      try {
+        // const currentLocation = await getCurrentLocation()
+        console.log("current location is ", currentLocation)
         const querySnapshot = await getDocs(query(collection(db, "Vehicles")))
         const getVehiclesPromises = querySnapshot.docs.map(async (document) => {
           let car = { "licensePlate": document.id, ...document.data() }
@@ -42,7 +75,7 @@ const MapScreen = () => {
             console.log("is in same city ", car)
             return car
           }
-          console.log("not is same city ", car)
+          console.log("not in same city ", car)
           return null
         })
 
@@ -52,14 +85,14 @@ const MapScreen = () => {
         console.log("after filtering ", result)
         console.log("remove non serializable values ", JSON.parse(JSON.stringify(result)))
         console.log("setting current location ", currentLocation)
-        setCurrentLocation(currentLocation)
+        // setCurrentLocation(currentLocation)
         setCarList(JSON.parse(JSON.stringify(result)))
       }
       catch (err) {
         console.log("error when setting car list ", err)
       }
     })()
-  }, [])
+  }, [currentLocation])
 
   return (
 

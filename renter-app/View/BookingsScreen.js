@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView} from 'react-native';
-import BookingListItem from '../component/BookingListItem';
+import BookingList from '../component/BookingList';
 
 
 
@@ -8,7 +8,7 @@ const BookingsScreen = () => {
 
   return (
     <View style={styles.container} >
-      <BookingListItem />
+      <BookingList />
     </View>
   );
 };

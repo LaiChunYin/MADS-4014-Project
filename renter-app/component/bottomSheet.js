@@ -60,7 +60,9 @@ const [gesturePosition, setGesturePosition] = useState({ x: 0, y: 0 });
         console.log("vehicle id is ", vehicleId)
         const renterDocRef = doc(db, "Renters", auth.currentUser.email)
         const vehicleDocRef = doc(db, "Vehicles", vehicleId)
+        const vehicleDoc = await getDoc(vehicleDocRef)
         const bookingDocRef = doc(collection(db, "Bookings"))
+        const ownerRef = vehicleDoc.data().owner
         console.log("auth email ", auth.currentUser.email)
         const bookingObj = {
           bookingDate: bookingDate,
@@ -71,6 +73,7 @@ const [gesturePosition, setGesturePosition] = useState({ x: 0, y: 0 });
         
         batch.set(bookingDocRef, bookingObj)
         batch.set(doc(collection(renterDocRef, "reservations")), {"booking": bookingDocRef})
+        batch.set(doc(collection(ownerRef,"bookings")), {"bookingId": bookingDocRef})
 
         console.log("before commit")
         await batch.commit()

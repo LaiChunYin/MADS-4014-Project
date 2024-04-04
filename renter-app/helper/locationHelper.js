@@ -17,6 +17,21 @@ export const getCurrentLocation = async () => {
     }
   }
 
+// export const locationSubscription = await Location.watchPositionAsync(
+//     {
+//       accuracy: Location.Accuracy.High,
+//       distanceInterval: 0, // Receive updates only when the location has changed
+//     },
+//     (newLocation) => {
+//       setLocation(newLocation);
+//     }
+//   );
+
+//   return () => {
+//     locationSubscription.remove(); // Stop listening for updates when the component unmounts
+//   };
+// });
+
   export const coordinatesToAddress = async (coords) => {
     try {
       const postalAddresses = await Location.reverseGeocodeAsync(coords, {})

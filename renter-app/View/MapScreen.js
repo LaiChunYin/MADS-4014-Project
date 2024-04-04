@@ -1,100 +1,18 @@
 import React, { cloneElement, useEffect, useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import BottomSheet from '../component/bottomSheet';
+import BottomSheet from '../component/BottomSheet';
 import * as Location from 'expo-location';
+import { getCurrentLocation, addressToCoordinates, coordinatesToAddress, checkCoorAndAddressInSameCity } from "../helper/locationHelper"
 import { db } from "../firebaseConfig"
 import { getDoc, getDocs, collection, query, updateDoc, doc } from "firebase/firestore"
-import { FlatList } from 'react-native';
-
-const PriceMarker = ({ price }) => {
-  return (
-    <View style={styles.priceTag}>
-      <Text style={styles.price}>${price}</Text>
-    </View>
-  );
-};
-
-
+import PriceMarker from '../component/PriceMarker';
 
 const MapScreen = () => {
-  // const [carList, setCarList] = useState([
-  //   { id: 1, latitude: 37.78825, longitude: -122.4324, price: '30000', name: "Honda NSX" },
-  //   { id: 2, latitude: 37.780, longitude: -122.4325, price: '8300', name: "BMW M3" },
-  //   { id: 3, latitude: 37.754, longitude: -122.4336, price: '18500', name: "Nissan GTR" }
-  // ]);
   const [carList, setCarList] = useState([])
-  // const [currentLocation, setCurrentLocation] = useState()
   const [currentLocation, setCurrentLocation] = useState({longitude: 0, latitude: 0})
   const [selectedCar, setSelectedCar] = useState(null);
   const [isBottomSheetVisible, setBottomSheetVisible] = useState(false);
-
-  const getCurrentLocation = async () => {
-    try {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        alert(`Permission to access location was denied`)
-        return
-      }
-
-      let location = await Location.getCurrentPositionAsync()
-      console.log("now in ", JSON.stringify(location))
-      return location.coords
-
-    } catch (err) {
-      console.log("error when getting location", err)
-    }
-  }
-
-  const coordinatesToAddress = async (coords) => {
-    try {
-      const postalAddresses = await Location.reverseGeocodeAsync(coords, {})
-
-      // const result = postalAddresses
-      // if (result === undefined) {
-      //   return
-      // }
-      console.log("address is ", postalAddresses)
-
-
-      const output = `${postalAddresses.streetNumber} ${postalAddresses.street}, ${postalAddresses.city}, ${postalAddresses.region}`
-      console.log("output is ", output)
-      return postalAddresses[0]
-    }
-    catch (err) {
-      console.log(err)
-    }
-  }
-
-  const addressToCoordinates = async (address) => {
-    try {
-      address = "Infinite Loop Campus"
-      console.log("converting address to coor ", address)
-      const geocodedLocation = await Location.geocodeAsync(address)
-
-      console.log("address ", address, " is converted to ", geocodedLocation)
-      return geocodedLocation[0]
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  const checkCoorAndAddressInSameCity = async (coord1, coord2) => {
-    console.log("coord1 and 2 are ", coord1, coord2)
-    // const parsedAddress1 = coordinatesToAddress(coord1)
-    // const parsedAddress2 = coordinatesToAddress(coord2)
-    const [parsedAddress1, parsedAddress2] = await Promise.all([coordinatesToAddress(coord1), coordinatesToAddress(coord2)])
-
-    console.log("parsed addr 1 is ", parsedAddress1)
-    console.log("parsed addr 2 is ", parsedAddress2)
-    if (parsedAddress1?.city === undefined || parsedAddress1?.city === null) {
-      return false
-    }
-    if (parsedAddress1.city === parsedAddress2.city) {
-      console.log("both in ", parsedAddress1.city)
-      return true
-    }
-  }
 
   const showBottomSheet = (licensePlate) => {
     console.log("show bottom sheet id is ", licensePlate)
@@ -143,16 +61,10 @@ const MapScreen = () => {
     })()
   }, [])
 
-
-  // return (
-  //   <Text>{JSON.stringify(carList) ?? "no data"}</Text>
-  // )
-
   return (
 
     <View style={styles.container} >
 
-      {/* <MapView style={styles.map} initialRegion={{ latitude: 37.78825, longitude: -122.4324, latitudeDelta: 0.1, longitudeDelta: 0.1 }}> */}
       <MapView style={styles.map} region={{ latitude: currentLocation.latitude, longitude: currentLocation.longitude, latitudeDelta: 0.1, longitudeDelta: 0.1 }}>
         { carList.length > 0 &&
         carList.map(car => (
@@ -187,16 +99,6 @@ const styles = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject,
   },
-  priceTag: {
-    padding: 5,
-    backgroundColor: 'orange',
-    borderRadius: 10
-  },
-  price: {
-    fontWeight: '500',
-    color: 'white',
-    fontSize: 12
-  }
 });
 
 export default MapScreen;

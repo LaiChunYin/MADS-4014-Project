@@ -37,7 +37,7 @@ const [gesturePosition, setGesturePosition] = useState({ x: 0, y: 0 });
     })
   ).current;
 
-  function generateRandomFutureDate() {
+  const generateRandomFutureDate = () => {
     const today = new Date();
     const maxDaysToAdd = 120; 
   

@@ -24,7 +24,7 @@ const SignInScreen = () => {
             }
 
         }
-        catch(err) {
+        catch (err) {
             console.log("sign in error: ", err)
             alert("Sign in failed")
         }
@@ -32,44 +32,44 @@ const SignInScreen = () => {
 
     return (
         <View style={styles.container}>
-        <ImageBackground 
-          source={{ 
-            // uri: 'https://i.pinimg.com/originals/76/49/ba/7649ba7c0d31bf9667faa7e123df34ef.jpg' 
-            // uri: 'https://www.wsupercars.com/thumbnails-phone/Lamborghini/2024-Lamborghini-Revuelto-007.jpg' 
-            // uri: 'https://w0.peakpx.com/wallpaper/107/777/HD-wallpaper-nissan-240z-black-car-cool-jdm-minimalistic-modified-tunning-thumbnail.jpg' 
-            // uri: 'https://i.pinimg.com/originals/0e/d5/42/0ed542baebfe0c854c8c81112ce25a99.jpg' 
-            uri: 'https://w0.peakpx.com/wallpaper/461/348/HD-wallpaper-bmw-car-cars-cool-minimalistic-modified-porche-purple-turbo.jpg' 
-            // uri: 'https://www.wsupercars.com/thumbnails-phone/Lamborghini/2024-Lamborghini-Revuelto-007.jpg' 
+            <ImageBackground
+                source={{
+                    // uri: 'https://i.pinimg.com/originals/76/49/ba/7649ba7c0d31bf9667faa7e123df34ef.jpg' 
+                    // uri: 'https://www.wsupercars.com/thumbnails-phone/Lamborghini/2024-Lamborghini-Revuelto-007.jpg' 
+                    // uri: 'https://w0.peakpx.com/wallpaper/107/777/HD-wallpaper-nissan-240z-black-car-cool-jdm-minimalistic-modified-tunning-thumbnail.jpg' 
+                    // uri: 'https://i.pinimg.com/originals/0e/d5/42/0ed542baebfe0c854c8c81112ce25a99.jpg' 
+                    uri: 'https://w0.peakpx.com/wallpaper/461/348/HD-wallpaper-bmw-car-cars-cool-minimalistic-modified-porche-purple-turbo.jpg'
+                    // uri: 'https://www.wsupercars.com/thumbnails-phone/Lamborghini/2024-Lamborghini-Revuelto-007.jpg' 
 
-        }}
-          style={styles.backgroundImage}
-        >
-<View style={styles.overlay} />
+                }}
+                style={styles.backgroundImage}
+            >
+                <View style={styles.overlay} />
 
-<View style={styles.content}>
-            <Text style={styles.textFieldHeading}>Username: </Text>
-            <TextInput
-            style={styles.textField}
-                placeholder = "Enter User Name"
-                value = {username}
-                onChangeText = {setUserName}
-            />
+                <View style={styles.content}>
+                    <Text style={styles.textFieldHeading}>Username: </Text>
+                    <TextInput
+                        style={styles.textField}
+                        placeholder="Enter User Name"
+                        value={username}
+                        onChangeText={setUserName}
+                    />
 
-            <Text style={styles.textFieldHeading}>Password: </Text>
-            <TextInput
-            style={styles.textField}
-                placeholder = "Enter Password"
-                value = {password}
-                onChangeText = {setPassword}
-                secureTextEntry = {true}
-            />
+                    <Text style={styles.textFieldHeading}>Password: </Text>
+                    <TextInput
+                        style={styles.textField}
+                        placeholder="Enter Password"
+                        value={password}
+                        onChangeText={setPassword}
+                        secureTextEntry={true}
+                    />
 
-            <Pressable onPress={signIn} style={styles.signInButton}>
-                <Text style={styles.buttonText}>Sign In</Text>
-            </Pressable>
-            </View>
+                    <Pressable onPress={signIn} style={styles.signInButton}>
+                        <Text style={styles.buttonText}>Sign In</Text>
+                    </Pressable>
+                </View>
             </ImageBackground>
-        </View> 
+        </View>
     )
 }
 
@@ -77,29 +77,29 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
-      },
-      backgroundImage: {
+    },
+    backgroundImage: {
         flex: 1,
         justifyContent: 'center',
-      },
-      overlay: {
+    },
+    overlay: {
         position: 'absolute',
         left: 0,
         right: 0,
         top: 0,
         bottom: 0,
         backgroundColor: 'rgba(0, 0, 0, 0.1)',
-      },
-      content: {
+    },
+    content: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-      },
-      text: {
+    },
+    text: {
         color: 'white',
         fontSize: 20,
         fontWeight: 'bold',
-      },
+    },
     textFieldHeading: {
         fontSize: 18,
         alignSelf: 'center',
@@ -133,6 +133,6 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         color: 'white'
     },
-  });
+});
 
 export default SignInScreen

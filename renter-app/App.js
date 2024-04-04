@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import MapScreen from './View/map';
-import BookingsScreen from './View/bookings';
+import MapScreen from './View/MapScreen';
+import BookingsScreen from './View/BookingsScreen';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import SignInScreen from './View/SignInScreen';
 import { onAuthStateChanged, signOut } from "firebase/auth"
@@ -12,7 +12,7 @@ import { auth } from "./firebaseConfig"
 
 const Tab = createBottomTabNavigator();
 
-function App() {
+const App = () => {
   const [currentUser, setCurrentUser] = useState()
 
   useEffect(() => {

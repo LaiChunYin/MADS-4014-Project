@@ -65,18 +65,11 @@ const BookingDetailsScreen = ({ navigation, route }) => {
     }
 
     return (
-        <View>
+        <View style={styles.container}>
             <Text style={styles.textFieldHeading}>Vehicle Name: {vehicle.name}</Text>
             <Text>License: {vehicle.licensePlate}</Text>
             <Text>Price: {booking.price}</Text>
-            {
-                renter &&
-                <View>
-                    <Text>Renter: {renter.name}</Text>
-                    <Image source = { {uri : renter.profilePicUrl}}  style={{ width: 100, height: 100 }} />
-                </View>
-                
-            }
+          
             <Text>Booking Date: {new Date(booking.bookingDate.seconds * 1000).toUTCString()}</Text>
             <Text>Booking Status: {booking.bookingStatus}</Text>
 
@@ -86,14 +79,23 @@ const BookingDetailsScreen = ({ navigation, route }) => {
             }
 
             {
+                renter &&
+                <View>
+                    <Text>Renter: {renter.name}</Text>
+                    <Image source = { {uri : renter.profilePicUrl}}  style={{ width: 100, height: 100 }} />
+                </View>
+                
+            }
+
+            {
                 booking.bookingStatus.toLowerCase() == "pending" && 
                 <View style={styles.btnContainer}>
                     <Pressable style={styles.acceptBtn} onPress={approveBooking}>
-                        <Text>Approve</Text>
+                        <Text style={styles.btnText}>Approve</Text>
                     </Pressable>
 
                     <Pressable style={styles.declineBtn} onPress={declineBooking}>
-                        <Text>Decline</Text>
+                        <Text style={styles.btnText}>Decline</Text>
                     </Pressable>
                 </View>
             }
@@ -103,18 +105,55 @@ const BookingDetailsScreen = ({ navigation, route }) => {
 }
 
 const styles = StyleSheet.create({
+    container: {
+            flexDirection: 'column',
+            alignContent: 'center',
+            alignSelf: 'center',
+            width: '95%',
+            marginVertical: 5,
+            backgroundColor: '#C6EBC5',
+            padding: 16,
+            borderRadius: 10,
+            shadowColor: '#000',
+            shadowOffset: {
+               width: 0,
+               height: -2,
+            },
+           shadowOpacity: 0.25,
+           shadowRadius: 3.84,
+           elevation: 5
+    },
     btnContainer: {
         flexDirection: "row",
-        justifyContent: "space-around"
+        justifyContent: 'space-between',
+        marginTop: 15
     },
     acceptBtn: {
-        backgroundColor: "green"
+        width: '40%',
+        alignContent: 'center',
+        alignItems: 'center',
+        backgroundColor: "green",
+        padding: 10,
+        borderRadius: 10
     },
     declineBtn: {
-        backgroundColor: "red"
+        width: '40%',
+        alignContent: 'center',
+        alignItems: 'center',
+        backgroundColor: "red",
+        padding: 10,
+        borderRadius: 10
+    },
+    btnText: {
+        color: 'white',
+        fontSize: 16,
+        fontWeight: '500'
     },
     textFieldHeading: {
-        fontSize: 20
+        fontSize: 20,
+        fontWeight: '500',
+        alignSelf: 'center',
+        paddingBottom: 10
     }
 })
 

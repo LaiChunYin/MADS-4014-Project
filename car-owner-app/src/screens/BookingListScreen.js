@@ -69,7 +69,7 @@ const BookingListScreen = ({ navigation }) => {
         <View>
             {
                 isLoading ? (
-                    <ActivityIndicator color="blue" size="large" animating={true}/>
+                    <ActivityIndicator color="blue" size="large" animating={true} style={styles.indicator}/>
                 ) : (
                     <FlatList 
                         data={bookings}
@@ -90,5 +90,12 @@ const BookingListScreen = ({ navigation }) => {
         // </NavigationOptionsContext.Provider>
     )
 }
+
+const styles = StyleSheet.create({
+    indicator: {
+        height: '100%'
+    }
+})
+
 
 export default BookingListScreen

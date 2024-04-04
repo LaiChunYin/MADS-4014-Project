@@ -44,12 +44,11 @@ const ListingScreen = () => {
     )
 
     return (
-        <ScrollView style={styles.container}>
+            <View style={styles.container}>
             {   isLoading ?
                 <ActivityIndicator color="blue" size="large" animating={true} style={styles.indicator}/>
                 :
                 vehicles.length > 0 ?
-                <ScrollView horizontal={true}>
                     <View style={styles.listContainer}>
                         <FlatList 
                             data={vehicles}
@@ -57,11 +56,10 @@ const ListingScreen = () => {
                             renderItem={({item}) => <VehicleListItem vehicle={item.vehicle} />}
                         />
                     </View>
-                </ScrollView>
                 :
                 <Text>No Listing found</Text>
             }
-        </ScrollView>
+            </View>
     )
 }
 

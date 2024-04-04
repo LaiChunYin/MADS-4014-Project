@@ -17,7 +17,7 @@ export default BookingListItem = ({item}) => {
                  ) : 
                  item.booking.bookingStatus.toLowerCase() === 'pending' ? (
                      <View style={[styles.pendingStatus, { borderRadius: 20 }]}>
-                       <Text style={styles.statusText}>Confirmed</Text>
+                       <Text style={styles.statusText}>Pending</Text>
                     </View>
                  ) : 
                   item.booking.bookingStatus.toLowerCase() === 'confirmed' ? (

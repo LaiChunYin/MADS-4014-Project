@@ -8,14 +8,17 @@ export default BookingListItem = ({item, updateBooking}) => {
     useEffect(()=>{console.log("in booking list item ", updateBooking)},[])
 
     return (
-        // <Pressable onPress={() => navigation.navigate("BookingDetails", {booking: item})} >
-        // <Pressable onPress={() => navigation.navigate("BookingDetails", JSON.parse(JSON.stringify({booking: item.booking, vehicle: item.vehicle, renter: item.renter})))} >
         <Pressable onPress={() => navigation.navigate("BookingDetails", {...JSON.parse(JSON.stringify(item))})} >
-            {/* <Text style={{backgroundColor: "gray"}}>{item.name}</Text> */}
-            {/* <Text style={{backgroundColor: "gray"}}>{item.vehicle.name}</Text> */}
-         <View style={styles.listItem}>
-            <Text style={styles.title}>{item.vehicle.name} </Text>
-       </View>
+            <View style={styles.listItem}>
+                <View style={styles.horizontalContainer}>
+                    <Text style={styles.title}>{item.vehicle.name} </Text>
+                    <Text>{item.booking.bookingStatus}</Text>
+                </View>
+                <View style={styles.horizontalContainer}>
+                    <Text>By {item.renter.name} </Text>
+                    <Image source = { {uri : item.renter.profilePicUrl}}  style={{ width: 40, height: 40 }} />
+                </View>
+            </View>
         </Pressable>
     )
 }
@@ -24,6 +27,7 @@ export default BookingListItem = ({item, updateBooking}) => {
 const styles = StyleSheet.create({
     listItem: {
         flexDirection: 'column',
+        justifyContent: "space-between",
         alignItems: 'flex-start',
         alignContent: 'center',
         alignSelf: 'center',
@@ -47,4 +51,10 @@ const styles = StyleSheet.create({
         color: 'black',
         fontWeight: '600',
       },
+      horizontalContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        width: "100%"
+      }
 })

@@ -220,7 +220,7 @@ const BookingListScreen = ({ navigation }) => {
 
     const updateBooking = (id, newBooking) => {
         console.log("updating booking")
-        const indexToBeUpdated = bookings.findIndex((booking) => booking.id == id)
+        const indexToBeUpdated = bookings.findIndex((booking) => booking.id === id)
         bookings[indexToBeUpdated] = newBooking
         setBookings(bookings)
     }

@@ -69,7 +69,7 @@ const BookingDetailsScreen = ({ navigation, route }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.textFieldHeading}>Vehicle Name: {vehicle.name}</Text>
+            <Text style={styles.textFieldHeading}>{vehicle.name}</Text>
             <Text>License: {vehicle.licensePlate}</Text>
             <Text>Price: {vehicle.price}</Text>
           

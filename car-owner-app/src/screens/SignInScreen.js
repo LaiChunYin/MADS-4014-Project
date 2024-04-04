@@ -47,6 +47,7 @@ const SignInScreen = () => {
                 <View style={styles.overlay} />
 
                 <View style={styles.content}>
+                    <Text style={styles.appTitle}>Car Owner App</Text>
                     <Text style={styles.textFieldHeading}>Username: </Text>
                     <TextInput
                         style={styles.textField}
@@ -133,6 +134,12 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         color: 'white'
     },
+    appTitle: {
+        fontSize: 50,
+        fontWeight: "bold",
+        justifyContent: "center",
+        color: "white"
+      }
 });
 
 export default SignInScreen

@@ -12,7 +12,9 @@ export default ReservationItem = ({reservation}) => {
             <Text style={styles.text}>Booking Status: {reservation.booking.bookingStatus}</Text>
             <Text style={styles.text}>Pickup location: {reservation.vehicle.location}</Text>
             <Text style={styles.text}>Price: ${reservation.vehicle.price}</Text>
-            <Text style={styles.text}>{reservation.booking.bookingConfirmationCode ?? ""} </Text>
+            {   reservation.booking.bookingStatus === "Confirmed" &&
+                <Text style={styles.text}>Confirmation Code: {reservation.booking.bookingConfirmationCode ?? ""} </Text>
+            }
         </View>
     )
 }

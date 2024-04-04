@@ -30,6 +30,7 @@ const AddListingScreen = () => {
                     capacity: String(element.seats_max) ?? "",
                     modelYear: String(element["model_year"]) ?? "",
                     make: element["make"] ?? "",
+                    doors: String(element.doors) ?? "",
                 }
                 console.log("vehicle is ", vehicle)
                 vehicles.push(vehicle)
@@ -44,7 +45,7 @@ const AddListingScreen = () => {
     }, [])
 
     const validateSelectedVehicle = () => {
-        const requiredKeys = ["handle", "name", "photoUrl", "capacity", "modelYear", "make", "licensePlate", "location", "price"]
+        const requiredKeys = ["handle", "name", "photoUrl", "capacity", "modelYear", "make", "licensePlate", "location", "price", "doors"]
         const selectedVehicleKeys = Object.keys(selectedVehicle)
 
         requiredKeys.every(key => {
@@ -165,6 +166,14 @@ const AddListingScreen = () => {
                 style={styles.textField}
                 value = {selectedVehicle.capacity}
                 onChangeText = {value => setVehicleProperty({"capacity": value})}
+            />
+
+            <Text style={styles.textFieldHeading}>Doors: </Text>
+            <TextInput
+                placeholder = "Enter the number of doors"
+                style={styles.textField}
+                value = {selectedVehicle.doors}
+                onChangeText = {value => setVehicleProperty({"doors": value})}
             />
             
             <Text style={styles.textFieldHeading}>License Plate: </Text>

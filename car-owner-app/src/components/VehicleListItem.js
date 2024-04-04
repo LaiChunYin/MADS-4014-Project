@@ -13,6 +13,7 @@ export default VehicleListItem = ({vehicle}) => {
             <Text>Location: {vehicle.location}</Text>
             <Text>Price: {vehicle.price}</Text>
             <Text>Capacity: {vehicle.capacity}</Text>
+            <Text>Doors: {vehicle.doors}</Text>
         </View>
     )
 }

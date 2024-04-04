@@ -64,6 +64,7 @@ const BookingDetailsScreen = ({ navigation, route }) => {
             <Text style={styles.textFieldHeading}>{vehicle.name}</Text>
             <Text>License: {vehicle.licensePlate}</Text>
             <Text>Price: {vehicle.price}</Text>
+            <Text>Doors: {vehicle.doors}</Text>
           
             <Text>Booking Date: {new Date(booking.bookingDate.seconds * 1000).toUTCString()}</Text>
             <Text>Booking Status: {booking.bookingStatus}</Text>

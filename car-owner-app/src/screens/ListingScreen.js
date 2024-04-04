@@ -57,21 +57,32 @@ const ListingScreen = () => {
                         />
                     </View>
                 :
-                <Text>No Listing found</Text>
+                <View style={styles.centeredContainer}>
+                    <Text style={styles.noListingText}>No Listing Found</Text>
+                </View>
             }
             </View>
     )
 }
 
 const styles = StyleSheet.create({
-    listContainer: {
-        width: 400
-    },
     container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      paddingTop: 15
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center', 
     },
+    centeredContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    noListingText: {
+        alignSelf: 'center', 
+        textAlign: 'center', 
+        padding: 20,
+        borderRadius: 10,
+        fontWeight: '600',
+    }
   });
 
 export default ListingScreen

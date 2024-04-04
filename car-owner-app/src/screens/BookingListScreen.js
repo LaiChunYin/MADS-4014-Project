@@ -32,7 +32,6 @@ const BookingListScreen = () => {
                 console.log("vehicle doc is ", vehicleDoc.data())
                 console.log("booking ", { "id": bookingDoc.id, ...bookingDoc.data(), ...vehicleDoc.data()})
                 console.log("before serial ", {"booking": {"id": bookingDoc.id, ...bookingDoc.data()}, "vehicle": { "licensePlate": vehicleDoc.id, ...vehicleDoc.data()}, "renter": {"id": renterDoc.id, ...renterDoc.data()}})
-                // stringify and then parse the object to remove the non-serializable fields, which should not be passed through navigation
                 console.log("after serial ", JSON.parse(JSON.stringify({"booking": {"id": bookingDoc.id, ...bookingDoc.data()}, "vehicle": { "licensePlate": vehicleDoc.id, ...vehicleDoc.data()}, "renter": {"id": renterDoc.id, ...renterDoc.data()}})))
                 return {"booking": {"id": bookingDoc.id, ...bookingDoc.data()}, "vehicle": { "licensePlate": vehicleDoc.id, ...vehicleDoc.data()}, "renter": {"id": renterDoc.id, ...renterDoc.data()}}
             })
@@ -65,7 +64,7 @@ const BookingListScreen = () => {
     }
 
     return (
-        <View>
+        <View style={styles.bookingTextContainer}>
             {
                 isLoading ? (
                     <ActivityIndicator color="blue" size="large" animating={true} style={styles.indicator}/>
@@ -79,7 +78,9 @@ const BookingListScreen = () => {
                         }
                     />
                     :
-                    <Text>No Bookings at this moment</Text>
+                    <View style={styles.centeredContainer}>
+                    <Text style={styles.bookingText}>No Bookings at this moment</Text>
+                </View>
                 )
             }
         </View>
@@ -89,6 +90,23 @@ const BookingListScreen = () => {
 const styles = StyleSheet.create({
     indicator: {
         height: '100%'
+    },
+    bookingTextContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center', 
+    },
+    centeredContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    bookingText: {
+        alignSelf: 'center', 
+        textAlign: 'center', 
+        padding: 20,
+        borderRadius: 10,
+        fontWeight: '600',
     }
 })
 

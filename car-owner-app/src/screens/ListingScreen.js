@@ -66,23 +66,14 @@ const ListingScreen = () => {
 }
 
 const styles = StyleSheet.create({
+    listContainer: {
+        width: 400
+    },
     container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center', 
+      flex: 1,
+      backgroundColor: '#fff',
+      paddingTop: 15
     },
-    centeredContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    noListingText: {
-        alignSelf: 'center', 
-        textAlign: 'center', 
-        padding: 20,
-        borderRadius: 10,
-        fontWeight: '600',
-    }
-  });
+  });q
 
 export default ListingScreen

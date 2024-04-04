@@ -7,6 +7,7 @@ import BookingsScreen from '../screens/BookingsScreen';
 import ListingScreen from '../screens/ListingScreen';
 import { onAuthStateChanged, signOut } from "firebase/auth"
 import { auth } from "../../firebaseConfig"
+import { BookingsProvider } from '../providers/BookingsProvider';
 
 const Tab = createBottomTabNavigator()
 
@@ -27,6 +28,7 @@ export default AppNavigation = () => {
     }
 
     return (
+        <BookingsProvider>
         <NavigationOptionsProvider>
         <NavigationContainer>
           <Tab.Navigator initialRouteName='Listing'>
@@ -68,5 +70,6 @@ export default AppNavigation = () => {
           </Tab.Navigator>
         </NavigationContainer>
       </NavigationOptionsProvider>
+      </BookingsProvider>
     )
 }

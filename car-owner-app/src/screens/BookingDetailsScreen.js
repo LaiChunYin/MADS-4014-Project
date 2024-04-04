@@ -13,6 +13,7 @@ const BookingDetailsScreen = ({ navigation, route }) => {
     // const [renter, setRenter] = useState()
     const [ booking, setBooking ] = useState(route.params.booking)
     const { tabSetOptions, setTabSetOptions } = useContext(NavigationOptionsContext)
+    const updateBooking = useState(route.params.updateBooking)
 
     useEffect(() => {
         (async () => {
@@ -45,6 +46,7 @@ const BookingDetailsScreen = ({ navigation, route }) => {
             console.log("booking approved")
 
             setBooking({...booking, "bookingStatus": "Confirmed", "bookingConfirmationCode": confirmationCode})
+            updateBooking(booking.id, {...booking, ...{"bookingStatus": "Confirmed", "bookingConfirmationCode": confirmationCode}})
         }
         catch(err) {
             console.log("cannot approve booking ", err)
@@ -58,6 +60,7 @@ const BookingDetailsScreen = ({ navigation, route }) => {
             console.log("booking declined")
 
             setBooking({...booking, "bookingStatus": "Declined"})
+            updateBooking(booking.id, {...booking, "bookingStatus": "Declined"})
         }
         catch(err) {
             console.log("cannot decline booking ", err)
@@ -74,7 +77,7 @@ const BookingDetailsScreen = ({ navigation, route }) => {
             <Text>Booking Status: {booking.bookingStatus}</Text>
 
             {   
-                booking.bookingConfirmationCode &&
+                booking.bookingStatus === "Confirmed" && booking.bookingConfirmationCode &&
                 <Text>Booking Confirmation Code: {booking.bookingConfirmationCode}</Text>
             }
 
@@ -88,7 +91,7 @@ const BookingDetailsScreen = ({ navigation, route }) => {
             }
 
             {
-                booking.bookingStatus.toLowerCase() == "pending" && 
+                booking.bookingStatus.toLowerCase() === "pending" && 
                 <View style={styles.btnContainer}>
                     <Pressable style={styles.acceptBtn} onPress={approveBooking}>
                         <Text style={styles.btnText}>Approve</Text>

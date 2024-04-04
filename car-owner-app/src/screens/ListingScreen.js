@@ -50,7 +50,7 @@ const ListingScreen = () => {
         requiredKeys.every(key => {
             if (!selectedVehicleKeys.includes(key)) return false
             if (selectedVehicle[key] === null || selectedVehicle[key] === undefined) return false
-            if (typeof selectedVehicle[key] == "string" && selectedVehicle[key].length < 1) return false
+            if (typeof selectedVehicle[key] === "string" && selectedVehicle[key].length < 1) return false
         });
         print("valid vehicle")
         return true
@@ -62,7 +62,7 @@ const ListingScreen = () => {
         console.log("keywords are ", keywords)
 
         vehicles.forEach((car) => {
-            if (keywords.some((substring) => car.name.includes(substring))) {
+            if (keywords.some((substring) => car.name.toLowerCase().includes(substring.toLowerCase()))) {
                 console.log("including ", car.name)
                 result.push(car)
             }
@@ -70,7 +70,6 @@ const ListingScreen = () => {
         console.log("filter cars total: ", result.length)
         console.log("filtered car is ", result.slice(0, 10))
         setfilteredVehicles(result.slice(0, 10))
-        // setfilteredVehicles(result)
     }
 
     const setVehicleProperty = (partialVehicle) => {
@@ -134,10 +133,13 @@ const ListingScreen = () => {
                 // onChangeText = {value => setVehicleProperty({"name": value})}
                 onChangeText = {onVehicleNameChange}
             />
+            {/* horizontal set to true to avoid the VirtualizedLists error */}
+            <ScrollView horizontal={true}>
             {
                 showVehicleSuggestions && filteredVehicles.length > 0 &&
                 <VehicleSuggestionList filteredVehicles={filteredVehicles} onPressVehicleSuggestion={onPressVehicleSuggestion} />
             }
+            </ScrollView>
 
             <Text style={styles.textFieldHeading}>Make: </Text>
             <TextInput

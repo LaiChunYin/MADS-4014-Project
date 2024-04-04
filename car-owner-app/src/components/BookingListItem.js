@@ -10,11 +10,27 @@ export default BookingListItem = ({item}) => {
             <View style={styles.listItem}>
                 <View style={styles.horizontalContainer}>
                     <Text style={styles.title}>{item.vehicle.name} </Text>
-                    <Text>{item.booking.bookingStatus}</Text>
+                {item.booking.bookingStatus.toLowerCase() === 'declined' ? (
+                     <View style={[styles.declinedStatus, { borderRadius: 20 }]}>
+                       <Text style={styles.statusText}>Declined</Text>
+                    </View>
+                 ) : 
+                 item.booking.bookingStatus.toLowerCase() === 'pending' ? (
+                     <View style={[styles.pendingStatus, { borderRadius: 20 }]}>
+                       <Text style={styles.statusText}>Confirmed</Text>
+                    </View>
+                 ) : 
+                  item.booking.bookingStatus.toLowerCase() === 'confirmed' ? (
+                    <View style={[styles.confirmedStatus, { borderRadius: 20 }]}>
+                     <Text style={styles.statusText}>Confirmed</Text>
+                    </View>
+                ) :(
+                      <Text style={styles.defaultStatus}>Unknown Status</Text>
+                  )}
                 </View>
                 <View style={styles.horizontalContainer}>
                     <Text>By {item.renter.name} </Text>
-                    <Image source = { {uri : item.renter.profilePicUrl}}  style={{ width: 40, height: 40 }} />
+                    <Image source = { {uri : item.renter.profilePicUrl}}  style={styles.renterImg} />
                 </View>
             </View>
         </Pressable>
@@ -54,5 +70,35 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "space-between",
         width: "100%"
-      }
+      },
+      renterImg: {
+        width: 40,
+        height: 40,
+        borderRadius: 50
+       },
+       declinedStatus: {
+        marginBottom: 6,
+        borderRadius: 10,
+        backgroundColor: '#EE4266',
+        borderRadius: 20
+       },
+       pendingStatus: {
+        marginBottom: 6,
+        borderRadius: 10,
+        backgroundColor: '#EE9322',
+        borderRadius: 20
+       },
+       confirmedStatus: {
+        marginBottom: 6,
+        borderRadius: 10,
+        backgroundColor: '#007F73',
+        borderRadius: 20
+       },
+       statusText: {
+        paddingHorizontal: 5,
+        paddingVertical: 2,
+        color: 'white',
+        fontWeight: '500',
+        fontSize: 13
+       }
 })

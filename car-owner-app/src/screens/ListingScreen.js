@@ -74,6 +74,6 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff',
       paddingTop: 15
     },
-  });q
+  });
 
 export default ListingScreen

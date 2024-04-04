@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import BottomSheet from '../component/BottomSheet';
+import BottomSheet from '../component/bottomSheet';
 import * as Location from 'expo-location';
 import { getCurrentLocation, addressToCoordinates, checkCoorAndAddressInSameCity } from "../helper/locationHelper"
 import { db } from "../firebaseConfig"

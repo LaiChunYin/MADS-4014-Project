@@ -8,6 +8,7 @@ import ListingScreen from '../screens/ListingScreen';
 import { onAuthStateChanged, signOut } from "firebase/auth"
 import { auth } from "../../firebaseConfig"
 import { BookingsProvider } from '../providers/BookingsProvider';
+import AddListingScreen from '../screens/AddListingScreen';
 
 const Tab = createBottomTabNavigator()
 
@@ -32,6 +33,23 @@ export default AppNavigation = () => {
         <NavigationOptionsProvider>
         <NavigationContainer>
           <Tab.Navigator initialRouteName='Listing'>
+          <Tab.Screen name="AddListing" component={AddListingScreen}
+            options={{
+              tabBarLabel: ({ focused, color }) => (
+                <Text style={{ color: focused ? '#fa7070' : 'grey' }}>Add Listing</Text>
+              ),
+              headerRight: () => (
+                <Button
+                  onPress={logout}
+                  title="Logout"
+                  // color="#000" // Color might not be supported depending on the platform; adjust accordingly.
+                />
+              ),
+              tabBarIcon: ({ color, size, focused }) => (
+                <FontAwesome name="list"  style={{ color: focused ? '#fa7070' : 'grey' }} size={20} />
+              ),
+            }}
+          />
           <Tab.Screen name="Listing" component={ListingScreen}
             options={{
               tabBarLabel: ({ focused, color }) => (

@@ -41,7 +41,6 @@ const BookingListScreen = ({ navigation }) => {
                 console.log("renter doc is ", renterDoc.data())
                 console.log("booking doc is ", bookingDoc.data())
                 console.log("vehicle doc is ", vehicleDoc.data())
-                console
                 console.log("booking ", { "id": bookingDoc.id, ...bookingDoc.data(), ...vehicleDoc.data()})
                 // return { "id": bookingDoc.id, ...bookingDoc.data(), ...vehicleDoc.data()}
                 console.log("before serial ", {"booking": {"id": bookingDoc.id, ...bookingDoc.data()}, "vehicle": { "licensePlate": vehicleDoc.id, ...vehicleDoc.data()}, "renter": {"id": renterDoc.id, ...renterDoc.data()}})

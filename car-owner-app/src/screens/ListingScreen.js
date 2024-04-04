@@ -2,13 +2,14 @@ import { useEffect, useState } from "react"
 import { StyleSheet, Text, TextInput, Pressable, View, FlatList, Image, ActivityIndicator } from "react-native"
 import { db, auth } from "../../firebaseConfig"
 import { collection, setDoc, doc, getDoc, writeBatch } from "firebase/firestore";
-import VehicleSuggestionListItem from "../components/VehicleSuggestionListItem";
+import VehicleSuggestionList from "../components/VehicleSuggestionList";
 
 const ListingScreen = () => {
     const [selectedVehicle, setSelectedVehicle] = useState({})
     const [filteredVehicles, setfilteredVehicles] = useState([])
     const [vehicles, setVehicles] = useState([])
     const [isLoading, setIsLoading] = useState(true)
+    const [showVehicleSuggestions, setShowVehicleSuggestions] = useState(true)
 
     useEffect(() => {
         fetch("https://laichunyin.github.io/MADS-4014-Project/vehicles.json").then((response) => {
@@ -81,6 +82,7 @@ const ListingScreen = () => {
 
     const onVehicleNameChange = (vehicleName) => {
         setVehicleProperty({"name": vehicleName})
+        setShowVehicleSuggestions(true)
         filterVechiles(vehicleName)
     }
 
@@ -115,6 +117,12 @@ const ListingScreen = () => {
         }
     }
 
+    const onPressVehicleSuggestion = (car) => {
+        console.log("selecting car ", car)
+        setSelectedVehicle(car)
+        setShowVehicleSuggestions(false)
+    } 
+
     return (
         <View>
             <Text>Vehicle Name: </Text>
@@ -125,19 +133,8 @@ const ListingScreen = () => {
                 onChangeText = {onVehicleNameChange}
             />
             {
-                filteredVehicles.length > 0 &&
-                <VehicleSuggestionListItem filteredVehicles={filteredVehicles} setSelectedVehicle={setSelectedVehicle} />
-            //     <FlatList
-            //         // style={styles.animeList}
-            //         data={filteredVehicles}
-            //         key={ (item) => item.handle }
-            //         renderItem={({item}) => 
-            //             <Pressable onPress={() => selectVehicle(item)}>
-            //                 <Text style={{backgroundColor: "yellow"}}>{item.name}</Text>
-            //             </Pressable>
-            //             // <Text >{item.name}</Text>
-            //         } 
-            //   />
+                showVehicleSuggestions && filteredVehicles.length > 0 &&
+                <VehicleSuggestionList filteredVehicles={filteredVehicles} onPressVehicleSuggestion={onPressVehicleSuggestion} />
             }
 
             <Text>Make: </Text>

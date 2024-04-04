@@ -37,7 +37,7 @@ const BookingListScreen = ({ navigation }) => {
                     console.log("renter doc is ", renterDoc.data())
                     console.log("booking doc is ", bookingDoc.data())
                     console.log("vehicle doc is ", vehicleDoc.data())
-                    console
+                    
                     console.log("booking ", { "id": bookingDoc.id, ...bookingDoc.data(), ...vehicleDoc.data()})
                     // return { "id": bookingDoc.id, ...bookingDoc.data(), ...vehicleDoc.data()}
                     console.log("before serial ", {"booking": {"id": bookingDoc.id, ...bookingDoc.data()}, "vehicle": { "licensePlate": vehicleDoc.id, ...vehicleDoc.data()}, "renter": {"id": renterDoc.id, ...renterDoc.data()}})
@@ -75,7 +75,7 @@ const BookingListScreen = ({ navigation }) => {
                         data={bookings}
                         key={(item) => item.booking.id}
                         renderItem={({item}) => 
-                            <BookingListItem item={item} updateBooking />
+                            <BookingListItem item={item} />
 
                             // <Pressable onPress={() => navigation.navigate("BookingDetails", {booking: item})} >
                             // <Pressable onPress={() => navigation.navigate("BookingDetails", JSON.parse(JSON.stringify({booking: item.booking, vehicle: item.vehicle, renter: item.renter})))} >

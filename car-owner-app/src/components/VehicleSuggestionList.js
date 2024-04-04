@@ -1,10 +1,10 @@
 import { StyleSheet, Text, TextInput, Pressable, View, FlatList, Image, ActivityIndicator } from "react-native"
 
-export default VehicleSuggestionListItem = ({filteredVehicles, setSelectedVehicle}) => {
-    const selectVehicle = (car) => {
-        console.log("selecting car ", car)
-        setSelectedVehicle(car)
-    }
+export default VehicleSuggestionList = ({filteredVehicles, onPressVehicleSuggestion}) => {
+    // const selectVehicle = (car) => {
+    //     console.log("selecting car ", car)
+    //     setSelectedVehicle(car)
+    // }
 
     return (
         <FlatList
@@ -12,7 +12,7 @@ export default VehicleSuggestionListItem = ({filteredVehicles, setSelectedVehicl
             data={filteredVehicles}
             key={ (item) => item.handle }
             renderItem={({item}) => 
-                <Pressable onPress={() => selectVehicle(item)}>
+                <Pressable onPress={() => onPressVehicleSuggestion(item)}>
                     <Text style={{backgroundColor: "yellow"}}>{item.name}</Text>
                 </Pressable>
                 // <Text >{item.name}</Text>

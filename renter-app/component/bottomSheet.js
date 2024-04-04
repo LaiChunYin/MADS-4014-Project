@@ -92,8 +92,8 @@ const [gesturePosition, setGesturePosition] = useState({ x: 0, y: 0 });
         <View style={styles.dragIndicator} />
         {car && <Text style={styles.text}>{car.name}</Text>}
         {car && <Text style={styles.text}>Price: ${car.price}</Text>}
-        {car && <Text style={styles.text}>Seats: ${car.capacity}</Text>}
-        {car && <Text style={styles.text}>Doors: ${car.doors}</Text>}
+        {car && <Text style={styles.text}>Seats: {car.capacity}</Text>}
+        {car && <Text style={styles.text}>Doors: {car.doors}</Text>}
         <Text style={styles.LocationText}>Pick Up Location: {car.location}</Text>
         <TouchableOpacity onPress={makeReservation} style={styles.bookButton}>
           <Text style={styles.buttonText}>Book Now</Text>

@@ -4,6 +4,7 @@ import { useContext, useCallback } from "react"
 import { auth, db } from "../../firebaseConfig"
 import { useFocusEffect } from '@react-navigation/native';
 import { BookingsContext } from '../providers/BookingsProvider';
+import BookingListItem from "../components/BookingListItem"
 
 const BookingListScreen = () => {
     const { isLoading, setIsLoading, bookings, setBookings } = useContext(BookingsContext)

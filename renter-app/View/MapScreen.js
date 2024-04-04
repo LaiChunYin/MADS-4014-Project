@@ -1,4 +1,4 @@
-import React, { cloneElement, useEffect, useState } from 'react';
+import React, { cloneElement, useCallback, useEffect, useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import BottomSheet from '../component/BottomSheet';
@@ -7,6 +7,7 @@ import { getCurrentLocation, addressToCoordinates, coordinatesToAddress, checkCo
 import { db } from "../firebaseConfig"
 import { getDoc, getDocs, collection, query, updateDoc, doc } from "firebase/firestore"
 import PriceMarker from '../component/PriceMarker';
+import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
 
 const MapScreen = () => {
   const [carList, setCarList] = useState([])
@@ -25,6 +26,15 @@ const MapScreen = () => {
       setBottomSheetVisible(false);
     }
   }
+
+  useFocusEffect(useCallback(() => {
+    // console.log("focusing on map")
+    (async () => {
+      console.log("refreshing location on map appears")
+      const location = await getCurrentLocation()
+      setCurrentLocation(location)
+    })()
+  }, []))
 
   useEffect(() => {
     let locationSubscription

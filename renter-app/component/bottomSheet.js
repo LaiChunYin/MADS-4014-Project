@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, PanResponder } from 'react-native';
 import { useState, useRef } from 'react';
+import { collection, setDoc, doc, getDoc, writeBatch } from "firebase/firestore";
+import { db, auth } from "../firebaseConfig"
 
 
 
@@ -48,10 +50,36 @@ const [gesturePosition, setGesturePosition] = useState({ x: 0, y: 0 });
   }
 
 
-  const bookButton = () => {
+  const makeReservation = async () => {
     const bookingDate = generateRandomFutureDate();
+    console.log("booking date is ", bookingDate)
 
-    // add code to add booking doc to firebase
+    try {
+        const batch = writeBatch(db)
+        const vehicleId = car.licensePlate
+        console.log("vehicle id is ", vehicleId)
+        const renterDocRef = doc(db, "Renters", auth.currentUser.email)
+        const vehicleDocRef = doc(db, "Vehicles", vehicleId)
+        const bookingDocRef = doc(collection(db, "Bookings"))
+        console.log("auth email ", auth.currentUser.email)
+        const bookingObj = {
+          bookingDate: bookingDate,
+          bookingStatus: "Pending",
+          renter: renterDocRef,
+          vehicle: vehicleDocRef,
+        }
+        
+        batch.set(bookingDocRef, bookingObj)
+        batch.set(doc(collection(renterDocRef, "reservations")), {"booking": bookingDocRef})
+
+        console.log("before commit")
+        await batch.commit()
+        console.log("batch commited")
+        alert("Please wait for confirmation from the car owner")
+    }
+    catch(err) {
+        console.log("cannot save listing: ", err)
+    }
  
     console.log(`Booking date: ${bookingDate}`);
     console.log('Book button pressed');
@@ -62,8 +90,8 @@ const [gesturePosition, setGesturePosition] = useState({ x: 0, y: 0 });
         <View style={styles.dragIndicator} />
         {car && <Text style={styles.text}>{car.name}</Text>}
         {car && <Text style={styles.text}>Price: ${car.price}</Text>}
-        <Text style={styles.LocationText}>123 imagenary ave Toronto, ontario</Text>
-        <TouchableOpacity onPress={bookButton} style={styles.bookButton}>
+        <Text style={styles.LocationText}>Pick Up Location: {car.location}</Text>
+        <TouchableOpacity onPress={makeReservation} style={styles.bookButton}>
           <Text style={styles.buttonText}>Book Now</Text>
         </TouchableOpacity>
         </View>
@@ -134,64 +162,3 @@ const styles = StyleSheet.create({
 });
 
 export default BottomSheet;
-
-
-
-// import React from 'react';
-// import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
-
-// const BottomSheet = ({ car }) => {
-//   const bookButton = () => {
-//     // Define the functionality for booking here
-//     console.log('Book button pressed');
-//   };
-
-//   return (
-//       <View style={styles.container}>
-//         <Text style={styles.text}>This is a basic bottom sheet</Text>
-//         {car && <Text style={styles.text}>{car.name}</Text>}
-//         {car && <Text style={styles.text}>Price: ${car.price}</Text>}
-//         <TouchableOpacity onPress={bookButton} style={styles.bookButton}>
-//           <Text style={styles.buttonText}>Book Now</Text>
-//         </TouchableOpacity>
-//       </View>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     position: 'absolute',
-//     bottom: 0,
-//     left: 0,
-//     right: 0,
-//     backgroundColor: 'white',
-//     padding: 16,
-//     paddingBottom: 150,
-//     borderTopLeftRadius: 20,
-//     borderTopRightRadius: 20,
-//     shadowColor: '#000',
-//     shadowOffset: {
-//       width: 0,
-//       height: -2,
-//     },
-//     shadowOpacity: 0.25,
-//     shadowRadius: 3.84,
-//     elevation: 5,
-//   },
-//   text: {
-//     fontSize: 16,
-//     fontWeight: 'bold',
-//   },
-//   bookButton: {
-//     marginTop: 20,
-//     width: "80%",
-//     height: 50,
-//     backgroundColor: 'gray',
-//     alignSelf: 'center',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//     borderRadius: 5
-//   }
-// });
-
-// export default BottomSheet;

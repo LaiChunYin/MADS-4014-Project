@@ -1,41 +1,114 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, SafeAreaView, ActivityIndicator , FlatList, TouchableOpacity} from 'react-native';
-import { collection, doc, getDocs, deleteDoc } from 'firebase/firestore';
-import { db } from "../firebaseConfig"
+import { StyleSheet, Text, View, SafeAreaView, ActivityIndicator, FlatList, TouchableOpacity, Image} from 'react-native';
+import { collection, doc, getDoc, getDocs, deleteDoc, query } from 'firebase/firestore';
+import { db, auth } from "../firebaseConfig"
 
-const FavouritesScreen = ({ navigation }) => {
-  const COLLECTION_NAME = 'Bookings'; 
-  const [favourites, setFavourites] = useState([]);
+const FavouritesScreen = () => {
+  const [reservations, setReservations] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetchFavourites = async () => {
+  const fetchReservations = async () => {
     try {
-      const querySnapshot = await getDocs(collection(db, COLLECTION_NAME));
-      const fetchedFavourites = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setFavourites(fetchedFavourites);
-      console.log(`firestore data: ${querySnapshot}`)
+      const querySnapshot = await getDocs(query(collection(db, `/Renters/${auth.currentUser.email}/reservations`)));
+
+      const getReservationPromises = querySnapshot.docs.map(async (document) => {
+        console.log("getting booking id ", document.data().bookingId)
+
+        const bookingRef = document.data().booking
+        const bookingDoc = await getDoc(bookingRef)
+        console.log("bookingdoc ", bookingDoc.data())
+
+        const vehicleRef = bookingDoc.data().vehicle
+        console.log("vehicle ref ", vehicleRef)
+        const vehicleDoc = await getDoc(vehicleRef)
+
+        const ownerRef = vehicleDoc.data().owner
+        const ownerDoc = await getDoc(ownerRef)
+
+        console.log("renter doc is ", ownerDoc.data())
+        console.log("booking doc is ", bookingDoc.data())
+        console.log("vehicle doc is ", vehicleDoc.data())
+        console.log("booking ", { "id": bookingDoc.id, ...bookingDoc.data(), ...vehicleDoc.data()})
+        // return { "id": bookingDoc.id, ...bookingDoc.data(), ...vehicleDoc.data()}
+        console.log("before serial ", {"booking": {"id": bookingDoc.id, ...bookingDoc.data()}, "vehicle": { "licensePlate": vehicleDoc.id, ...vehicleDoc.data()}, "owner": {"id": ownerDoc.id, ...ownerDoc.data()}})
+        // stringify and then parse the object to remove the non-serializable fields, which should not be passed through navigation
+        console.log("after serial ", JSON.parse(JSON.stringify({"booking": {"id": bookingDoc.id, ...bookingDoc.data()}, "vehicle": { "licensePlate": vehicleDoc.id, ...vehicleDoc.data()}, "renter": {"id": ownerDoc.id, ...ownerDoc.data()}})))
+        return {"booking": {"id": bookingDoc.id, ...bookingDoc.data()}, "vehicle": { "licensePlate": vehicleDoc.id, ...vehicleDoc.data()}, "owner": {"id": ownerDoc.id, ...ownerDoc.data()}}
+      })
+
+      const result = await Promise.all(getReservationPromises)
+      console.log("reservations are ", result)
+
+      setReservations(result)
+      setIsLoading(false)
+
     } catch (err) { 
-      console.log(err.message)
+      console.log("cannot fetch fav, ", err.message)
   }
-  setIsLoading(false);
+
   };
 
   useEffect(() => {
-    fetchFavourites();
+    // fetchReservations();
+
+    (async () => {
+      try {
+        const querySnapshot = await getDocs(query(collection(db, `/Renters/${auth.currentUser.email}/reservations`)));
+  
+        const getReservationPromises = querySnapshot.docs.map(async (document) => {
+          console.log("getting booking id ", document.data().bookingId)
+  
+          const bookingRef = document.data().booking
+          const bookingDoc = await getDoc(bookingRef)
+          console.log("bookingdoc ", bookingDoc.data())
+  
+          const vehicleRef = bookingDoc.data().vehicle
+          console.log("vehicle ref ", vehicleRef)
+          const vehicleDoc = await getDoc(vehicleRef)
+  
+          const ownerRef = vehicleDoc.data().owner
+          const ownerDoc = await getDoc(ownerRef)
+  
+          console.log("renter doc is ", ownerDoc.data())
+          console.log("booking doc is ", bookingDoc.data())
+          console.log("vehicle doc is ", vehicleDoc.data())
+          console.log("booking ", { "id": bookingDoc.id, ...bookingDoc.data(), ...vehicleDoc.data()})
+          // return { "id": bookingDoc.id, ...bookingDoc.data(), ...vehicleDoc.data()}
+          console.log("before serial ", {"booking": {"id": bookingDoc.id, ...bookingDoc.data()}, "vehicle": { "licensePlate": vehicleDoc.id, ...vehicleDoc.data()}, "owner": {"id": ownerDoc.id, ...ownerDoc.data()}})
+          // stringify and then parse the object to remove the non-serializable fields, which should not be passed through navigation
+          console.log("after serial ", JSON.parse(JSON.stringify({"booking": {"id": bookingDoc.id, ...bookingDoc.data()}, "vehicle": { "licensePlate": vehicleDoc.id, ...vehicleDoc.data()}, "renter": {"id": ownerDoc.id, ...ownerDoc.data()}})))
+          return {"booking": {"id": bookingDoc.id, ...bookingDoc.data()}, "vehicle": { "licensePlate": vehicleDoc.id, ...vehicleDoc.data()}, "owner": {"id": ownerDoc.id, ...ownerDoc.data()}}
+        })
+  
+        const result = await Promise.all(getReservationPromises)
+        console.log("reservations are ", result)
+  
+        setReservations(result)
+        setIsLoading(false)
+  
+      } catch (err) { 
+        console.log("cannot fetch fav, ", err.message)
+    }
+    })()
   }, []);
 
 
-
-  const renderFavouriteItem =({item})  => (
+  const renderReservationItem = (item)  => {
+    console.log("rendering item ", item)
+    return (
     <View style={styles.listItem}>
-       <Text style={styles.title}>{item.vehicle} </Text>
-       <Text style={styles.text}>{item.bookingConfirmationCode} </Text>
-       <Text style={styles.text}>Booking Date: {item.bookingDate.toString()}</Text>
-       <Text style={styles.text}>Booking Status: {item.bookingStatus}</Text>
-       <Text style={styles.text}>Pickup location: {item.vehicle}</Text>
-       <Text style={styles.text}>Price: {item.vehicle}</Text>
+       <Text style={styles.title}>{item.vehicle.name} </Text>
+       <Image source = { {uri : item.vehicle.photoUrl}}  style={{ width: 100, height: 100 }} />
+       <Text style={styles.text}>{item.vehicle.licensePlate} </Text>
+       <Text style={styles.text}>{item.owner.name} </Text>
+       <Image source = { {uri : item.owner.profilePicUrl}}  style={{ width: 50, height: 50 }} />
+       <Text style={styles.text}>Booking Date: {new Date(item.booking.bookingDate.seconds * 1000).toUTCString()}</Text>
+       <Text style={styles.text}>Booking Status: {item.booking.bookingStatus}</Text>
+       <Text style={styles.text}>Pickup location: {item.vehicle.location}</Text>
+       <Text style={styles.text}>Price: ${item.vehicle.price}</Text>
+       <Text style={styles.text}>{item.booking.bookingConfirmationCode ?? ""} </Text>
     </View>
-  )
+  )}
 
   return (
     <SafeAreaView style={styles.container}>
@@ -43,10 +116,10 @@ const FavouritesScreen = ({ navigation }) => {
         <ActivityIndicator color="blue" size="large" animating={true}/>
       ) : (
         <FlatList
-          style={styles.videosList}
-          data={favourites}
-          keyExtractor={(item) => item.id}
-          renderItem={ (item) => renderFavouriteItem(item)}
+          style={styles.bookingsList}
+          data={reservations}
+          key={(item) => item.id}
+          renderItem={ ({item}) => renderReservationItem(item)}
         />
       )}
     </SafeAreaView>
@@ -67,7 +140,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     paddingBottom: 10,
   },
-  videosList: {
+  bookingsList: {
     alignContent:"stretch",
     width:"100%",
   },
@@ -136,58 +209,3 @@ noFavouritesText: {
 });
 
 export default FavouritesScreen;
-
-
-
-
-
-// import React from 'react';
-// import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
-
-// const BookingListItem = ({ car }) => {
-
-
-// //     Booking Date
-// // ○ License Plate
-// // ○ Pickup location
-// // ○ Price
-// // ○ Owner name and photo
-// // ○ Booking status
-// // ○ Booking confirmation code → appears only if the booking was approved
-
-
-
-//   return (
-//       <View style={styles.container}>
-//         <Text style={styles.text}>BMW M3</Text>
-//         <Text style={styles.text}>Booking Date: 12/2/24</Text>
-//         <Text style={styles.text}>License Plate: ABC 123</Text>
-//         <Text style={styles.text}>Pickup location: toronto, ON</Text>
-//         <Text style={styles.text}>Price: $8300</Text>
-//         <Text style={styles.text}>Owner name and photo: Jack</Text>
-//         <Text style={styles.text}>Booking status: confirmed</Text>
-//         <Text style={styles.text}>Booking confirmation code: #123</Text>
-//       </View>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     position: 'absolute',
-//     width: '100%',
-//     backgroundColor: 'white',
-//     marginHorizontal: 20,
-//     padding: 16,
-//     borderRadius: 20,
-//     shadowColor: '#000',
-//     shadowOffset: {
-//       width: 0,
-//       height: -2,
-//     },
-//     shadowOpacity: 0.25,
-//     shadowRadius: 3.84,
-//     elevation: 5,
-//   },
-// });
-
-// export default BookingListItem;
